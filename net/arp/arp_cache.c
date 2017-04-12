@@ -55,7 +55,7 @@ ARP_CACHE__entry_t *ARP_CACHE__allocate(ARP_CACHE__table_t *table)
         table->free_head = entry->next;
         goto AllocateEntry;
     }
-    /* No free entry using the oldest one */
+    /* No free entry, using the oldest one */
     if (NULL == table->oldest_allocated_head) {
         /* Shouldn't happen.. */
         /* TODO: Add log here */
@@ -63,10 +63,13 @@ ARP_CACHE__entry_t *ARP_CACHE__allocate(ARP_CACHE__table_t *table)
     }
 
     entry = table->oldest_allocated_head;
-    if (NULL != entry) {
-        entry->prev->next = NULL;
-        table->oldest_allocated_head = entry->prev;
+    if (NULL == entry) {
+        /* Shouldn't happen.. */
+        /* TODO: Add log here */
+        goto Exit;
     }
+    entry->prev->next = NULL;
+    table->oldest_allocated_head = entry->prev;
 
 AllocateEntry:
     entry->next = table->allocated_head;
