@@ -1,0 +1,112 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ARP_CACHE_SIZE	./net_config.h	6;"	d
+ARP_CACHE__entry_t	./net/arp/arp_cache.h	/^} ARP_CACHE__entry_t;$/;"	t	typeref:struct:__anon3
+ARP_PROTOCOL	./net/protocols.h	/^    ARP_PROTOCOL = 0x806,$/;"	e	enum:__anon1
+ARP_REPLY	./net/arp/arp.h	/^    ARP_REPLY = 2$/;"	e	enum:__anon4
+ARP_REQUEST	./net/arp/arp.h	/^    ARP_REQUEST = 1,$/;"	e	enum:__anon4
+ARP__cache_add	./net/arp/arp_cache.c	/^void ARP__cache_add(IP_ADDRESS_t ip, MAC_ADDRESS_t mac)$/;"	f
+ARP__cache_get	./net/arp/arp_cache.c	/^void ARP__cache_get(IP_ADDRESS_t ip, MAC_ADDRESS_t *out_mac)$/;"	f
+ARP__fill	./net/arp/arp.c	/^uint16_t ARP__fill(DEVICE_t *device, uint8_t *buffer, uint8_t opcode, MAC_ADDRESS_t target_mac, IP_ADDRESS_t target_ip)$/;"	f
+ARP__handle_packet	./net/arp/arp.c	/^void ARP__handle_packet(DEVICE_t *device, uint8_t *payload)$/;"	f
+ARP__handle_request	./net/arp/arp.c	/^void ARP__handle_request(DEVICE_t *device, ARP_t *arp)$/;"	f
+ARP__opcode_t	./net/arp/arp.h	/^} ARP__opcode_t;$/;"	t	typeref:enum:__anon4
+ARP_t	./net/arp/arp.h	/^} ARP_t;$/;"	t	typeref:struct:__anon5
+BROADCAST_MAC	./net/protocols.h	9;"	d
+CC	./Makefile	/^CC=gcc$/;"	m
+CFLAGS	./Makefile	/^CFLAGS=-Werror -O2 -I. -Iplatforms\/$(PLATFORM)$/;"	m
+CONFIG_LITTLE_ENDIAN	./net_config.h	4;"	d
+CONFIG_TTL	./net_config.h	5;"	d
+DEVICE__handle_packet	./net/device.c	/^void DEVICE__handle_packet(DEVICE_t *device, uint16_t packet_size)$/;"	f
+DEVICE__init	./net/device.c	/^void DEVICE__init(DEVICE_t *device,$/;"	f
+DEVICE_t	./net/device.h	/^} DEVICE_t;$/;"	t	typeref:struct:__anon9
+ETHER__fill	./net/ether.c	/^uint16_t ETHER__fill(DEVICE_t *device, uint8_t *buffer, MAC_ADDRESS_t destination_mac, uint16_t protocol)$/;"	f
+ETHER_t	./net/protocols.h	/^} ETHER_t;$/;"	t	typeref:struct:__anon2
+FILES	./Makefile	/^FILES=platforms\/$(PLATFORM)\/main.c \\$/;"	m
+ICMP__fill	./net/ipv4/icmp.c	/^uint16_t ICMP__fill(DEVICE_t *device, uint8_t *buffer, uint8_t type, uint8_t code)$/;"	f
+ICMP__handle_packet	./net/ipv4/icmp.c	/^void ICMP__handle_packet(DEVICE_t *device, IP_t *ip)$/;"	f
+ICMP_t	./net/ipv4/icmp.h	/^} ICMP_t;$/;"	t	typeref:struct:__anon6
+IPV4_PROTOCOL	./net/protocols.h	/^    IPV4_PROTOCOL = 0x800$/;"	e	enum:__anon1
+IP_ADDRESS_t	./net/protocols.h	/^typedef uint8_t IP_ADDRESS_t[4];$/;"	t
+IP_PROTOCOL_HANDLER	./net/ipv4/ip.c	47;"	d	file:
+IP_PROTOCOL_HANDLER	./net/ipv4/ip.c	52;"	d	file:
+IP__GET_HEADER_LENGTH	./net/ipv4/ip.h	7;"	d
+IP__HEADER_SIZE_WITHOUT_OPTIONS	./net/ipv4/ip.h	6;"	d
+IP__ICMP_PROTOCOL	./net/ipv4/ip.h	/^    IP__ICMP_PROTOCOL = 1,$/;"	e	enum:__anon7
+IP__VERSION_HEADER_LENGTH	./net/ipv4/ip.h	8;"	d
+IP__fill	./net/ipv4/ip.c	/^uint16_t IP__fill(DEVICE_t *device, uint8_t *buffer, IP_ADDRESS_t destination_ip, uint8_t protocol, uint16_t payload_length)$/;"	f
+IP__get_payload	./net/ipv4/ip.c	/^uint8_t *IP__get_payload(IP_t *ip)$/;"	f
+IP__handle_packet	./net/ipv4/ip.c	/^void IP__handle_packet(DEVICE_t *device, uint8_t *payload)$/;"	f
+IP__protocol_t	./net/ipv4/ip.h	/^} IP__protocol_t;$/;"	t	typeref:enum:__anon7
+IP_t	./net/ipv4/ip.h	/^} IP_t;$/;"	t	typeref:struct:__anon8
+MAC_ADDRESS_t	./net/protocols.h	/^typedef uint8_t MAC_ADDRESS_t[6];$/;"	t
+MIN_PACKET_SIZE	./net/protocols.h	12;"	d
+MTU	./net/protocols.h	11;"	d
+NET_ARP_CACHE_H	./net/arp/arp_cache.h	2;"	d
+NET_ARP_H	./net/arp/arp.h	2;"	d
+NET_CONFIG_H	./net_config.h	2;"	d
+NET_DEVICE_H	./net/device.h	2;"	d
+NET_ETHER_H	./net/ether.h	2;"	d
+NET_IPV4_ICMP_H	./net/ipv4/icmp.h	2;"	d
+NET_IPV4_IP_H	./net/ipv4/ip.h	2;"	d
+NET_PROTOCOLS_H	./net/protocols.h	2;"	d
+NET_UTILS_H	./net/utils.h	2;"	d
+PLATFORM	./Makefile	/^PLATFORM=linux$/;"	m
+PROTOCOLS_t	./net/protocols.h	/^} PROTOCOLS_t;$/;"	t	typeref:enum:__anon1
+PROTOCOL_HANDLER	./net/device.c	32;"	d	file:
+PROTOCOL_HANDLER	./net/device.c	37;"	d	file:
+TAP_DEVICE	./platforms/linux/main.c	17;"	d	file:
+UTILS__fill_checksums	./net/utils.c	/^void UTILS__fill_checksums(uint8_t *buffer)$/;"	f
+arp_cache	./net/device.h	/^    ARP_CACHE__entry_t arp_cache[ARP_CACHE_SIZE];$/;"	m	struct:__anon9
+checksum	./net/ipv4/icmp.h	/^    uint16_t checksum;$/;"	m	struct:__anon6
+checksum16	./net/utils.c	/^uint16_t checksum16(uint8_t *buffer, uint16_t length)$/;"	f
+code	./net/ipv4/icmp.h	/^    uint8_t code;$/;"	m	struct:__anon6
+destination	./net/protocols.h	/^    MAC_ADDRESS_t destination;$/;"	m	struct:__anon2
+destination_ip	./net/ipv4/ip.h	/^    IP_ADDRESS_t destination_ip;$/;"	m	struct:__anon8
+dscp_ecn	./net/ipv4/ip.h	/^    uint8_t dscp_ecn;$/;"	m	struct:__anon8
+flags_fragment_offset	./net/ipv4/ip.h	/^    uint16_t flags_fragment_offset;$/;"	m	struct:__anon8
+gateway	./net/device.h	/^    IP_ADDRESS_t gateway;$/;"	m	struct:__anon9
+gateway	./platforms/linux/main.c	/^IP_ADDRESS_t gateway = {192, 168, 0, 1};$/;"	v
+handle_packets	./platforms/linux/main.c	/^void handle_packets(DEVICE_t *device)$/;"	f
+header_checksum	./net/ipv4/ip.h	/^    uint16_t header_checksum;$/;"	m	struct:__anon8
+htons	./net/utils.h	13;"	d
+hw_size	./net/arp/arp.h	/^    uint8_t hw_size;$/;"	m	struct:__anon5
+hw_type	./net/arp/arp.h	/^    uint16_t hw_type;$/;"	m	struct:__anon5
+identification	./net/ipv4/ip.h	/^    uint16_t identification;$/;"	m	struct:__anon8
+input_packet	./net/device.h	/^    uint8_t input_packet[MTU];$/;"	m	struct:__anon9
+ip	./net/arp/arp_cache.h	/^    IP_ADDRESS_t ip;$/;"	m	struct:__anon3
+ip	./net/device.h	/^    IP_ADDRESS_t ip;$/;"	m	struct:__anon9
+mac	./net/arp/arp_cache.h	/^    MAC_ADDRESS_t mac;$/;"	m	struct:__anon3
+mac	./net/device.h	/^    MAC_ADDRESS_t mac;$/;"	m	struct:__anon9
+main	./platforms/linux/main.c	/^void main(void)$/;"	f
+ntohs	./net/utils.h	9;"	d
+opcode	./net/arp/arp.h	/^    uint16_t opcode;$/;"	m	struct:__anon5
+output_packet	./net/device.h	/^    uint8_t output_packet[MTU];$/;"	m	struct:__anon9
+payload	./net/ipv4/icmp.h	/^    uint8_t payload[0];$/;"	m	struct:__anon6
+payload	./net/ipv4/ip.h	/^    uint8_t payload[0];$/;"	m	struct:__anon8
+payload	./net/protocols.h	/^    uint8_t payload[0];$/;"	m	struct:__anon2
+protocol	./net/ipv4/ip.h	/^    uint8_t protocol;$/;"	m	struct:__anon8
+protocol	./net/protocols.h	/^    uint16_t protocol;$/;"	m	struct:__anon2
+protocol_size	./net/arp/arp.h	/^    uint8_t protocol_size;$/;"	m	struct:__anon5
+protocol_type	./net/arp/arp.h	/^    uint16_t protocol_type;$/;"	m	struct:__anon5
+sender_ip	./net/arp/arp.h	/^    IP_ADDRESS_t sender_ip;$/;"	m	struct:__anon5
+sender_mac	./net/arp/arp.h	/^    MAC_ADDRESS_t sender_mac;$/;"	m	struct:__anon5
+source	./net/protocols.h	/^    MAC_ADDRESS_t source;$/;"	m	struct:__anon2
+source_ip	./net/ipv4/ip.h	/^    IP_ADDRESS_t source_ip;$/;"	m	struct:__anon8
+src_ip	./platforms/linux/main.c	/^IP_ADDRESS_t src_ip = {192, 168, 0, 2};$/;"	v
+src_mac	./platforms/linux/main.c	/^MAC_ADDRESS_t src_mac = {0xde, 0xad, 0xbe, 0xef, 5, 6};$/;"	v
+subnet	./platforms/linux/main.c	/^IP_ADDRESS_t subnet = {255, 255, 255, 0};$/;"	v
+subnet_mask	./net/device.h	/^    IP_ADDRESS_t subnet_mask;$/;"	m	struct:__anon9
+tapdev_fd	./platforms/linux/main.c	/^int tapdev_fd = -1;$/;"	v
+target_ip	./net/arp/arp.h	/^    IP_ADDRESS_t target_ip;$/;"	m	struct:__anon5
+target_mac	./net/arp/arp.h	/^    MAC_ADDRESS_t target_mac;$/;"	m	struct:__anon5
+time	./net/arp/arp_cache.h	/^    uint32_t time;$/;"	m	struct:__anon3
+total_length	./net/ipv4/ip.h	/^    uint16_t total_length;$/;"	m	struct:__anon8
+ttl	./net/ipv4/ip.h	/^    uint8_t ttl;$/;"	m	struct:__anon8
+type	./net/ipv4/icmp.h	/^    uint8_t type;$/;"	m	struct:__anon6
+version_header_length	./net/ipv4/ip.h	/^    uint8_t version_header_length;$/;"	m	struct:__anon8
+write_packet	./platforms/linux/main.c	/^void write_packet(uint8_t *packet, uint16_t length)$/;"	f
