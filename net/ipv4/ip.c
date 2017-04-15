@@ -4,6 +4,7 @@
 #include <net/device.h>
 #include <net/ipv4/ip.h>
 #include <net/ipv4/icmp.h>
+#include <net/ipv4/udp.h>
 #include <net/utils.h>
 #include <net_config.h>
 
@@ -24,7 +25,7 @@ uint16_t IP__fill(DEVICE_t *device, uint8_t *buffer, IP_ADDRESS_t destination_ip
     ip->identification = 0;
     /* TODO: deal with framentations */
     ip->flags_fragment_offset = htons(0x4000);
-    ip->ttl = CONFIG_TTL;
+    ip->ttl = EASY_IP_TTL;
     ip->protocol = protocol;
     ip->header_checksum = 0;
     memcpy(ip->source_ip, device->ip, sizeof(ip->source_ip));

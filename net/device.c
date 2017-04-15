@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <net/device.h>
 #include <net/protocols.h>
@@ -7,7 +8,7 @@
 #include <net/arp/arp_cache.h>
 #include <net/utils.h>
 
-void DEVICE__init(DEVICE_t *device,
+bool DEVICE__init(DEVICE_t *device,
                   MAC_ADDRESS_t mac,
                   IP_ADDRESS_t ip,
                   IP_ADDRESS_t subnet_mask,
@@ -19,6 +20,7 @@ void DEVICE__init(DEVICE_t *device,
     memcpy(device->subnet_mask, subnet_mask, sizeof(device->subnet_mask));
     memcpy(device->gateway, gateway, sizeof(device->gateway));
     ARP_CACHE__init(&device->arp_cache);
+    return EASY_IP__create_mutex(&device->mutex);
 }
 
 
@@ -40,4 +42,9 @@ void DEVICE__handle_packet(DEVICE_t *device, uint16_t packet_size)
 
 Exit:
     return;
+}
+
+void DEVICE__periodic_timer(DEVICE_t *device)
+{
+    /* printf("Timer called\n"); */
 }

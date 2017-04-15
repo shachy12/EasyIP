@@ -24,7 +24,14 @@ uint16_t ARP__fill(DEVICE_t *device, uint8_t *buffer, uint8_t opcode, MAC_ADDRES
 void ARP__handle_request(DEVICE_t *device, ARP_t *arp)
 {
     uint8_t *buffer = (uint8_t *)device->output_packet;
+
     if (0 != memcmp(arp->target_ip, device->ip, sizeof(arp->target_ip))) {
+        goto Exit;
+    }
+
+    if (!EASY_IP__lock_mutex(&device->mutex)) {
+        /* TODO: Add error handling */
+        printf("Failed to lock mutex\n");
         goto Exit;
     }
     printf("Received arp request packet\n");
@@ -32,7 +39,12 @@ void ARP__handle_request(DEVICE_t *device, ARP_t *arp)
 
     buffer += ETHER__fill(device, buffer, arp->sender_mac, ARP_PROTOCOL);
     buffer += ARP__fill(device, buffer, ARP_REPLY, arp->sender_mac, arp->sender_ip);
-    write_packet(device->output_packet, (uint32_t)buffer - (uint32_t)device->output_packet);
+    EASY_IP__write_packet(device->output_packet, (uint32_t)buffer - (uint32_t)device->output_packet);
+    if (!EASY_IP__unlock_mutex(&device->mutex)) {
+        /* TODO: Add error handling */
+        printf("Failed to unlock mutex\n");
+        goto Exit;
+    }
 
 Exit:
     return;

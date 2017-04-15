@@ -17,7 +17,7 @@ typedef struct {
     ARP_CACHE__entry_t *allocated_head;
     ARP_CACHE__entry_t *oldest_allocated_head;
     ARP_CACHE__entry_t *free_head;
-    ARP_CACHE__entry_t entries[CONFIG_ARP_CACHE_SIZE];
+    ARP_CACHE__entry_t entries[EASY_IP_ARP_CACHE_SIZE];
 } ARP_CACHE__table_t;
 
 void ARP_CACHE__init(ARP_CACHE__table_t *table);

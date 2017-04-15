@@ -4,8 +4,7 @@
 #include <stdint.h>
 #include <net_config.h>
 
-/* TODO: Create new define, right now we use gcc defines */
-#ifdef CONFIG_LITTLE_ENDIAN
+#ifdef EASY_IP_LITTLE_ENDIAN
 #define ntohs(__value) (uint16_t)((((uint16_t)(__value)) << 8) | (((uint16_t)(__value)) >> 8))
 #else
 /* #define ntohs(__value) (__value) */

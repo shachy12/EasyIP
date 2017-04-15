@@ -8,7 +8,7 @@ void ARP_CACHE__init(ARP_CACHE__table_t *table)
 {
     table->allocated_head = NULL;
     memset(table->entries, 0, sizeof(table->entries));
-    for (uint16_t i = 0; i < CONFIG_ARP_CACHE_SIZE; i++) {
+    for (uint16_t i = 0; i < EASY_IP_ARP_CACHE_SIZE; i++) {
         table->entries[i].next = &table->entries[i + 1];
         table->entries[i + 1].prev = &table->entries[i];
     }
@@ -30,7 +30,7 @@ void ARP_CACHE__update(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t
     printf("Updated arp cache\n");
 UpdateEntry:
     memcpy(entry->mac, mac, sizeof(entry->mac));
-    entry->time = CONFIG_GET_TIME();
+    /* entry->time = CONFIG_GET_TIME(); */
 Exit:
     return;
 }

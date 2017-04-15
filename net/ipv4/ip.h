@@ -9,6 +9,7 @@
 
 typedef enum {
     IP__ICMP_PROTOCOL = 1,
+    IP__UDP_PROTOCOL = 17,
 } IP__protocol_t;
 
 typedef struct {

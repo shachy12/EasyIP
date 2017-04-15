@@ -30,13 +30,26 @@ void ICMP__handle_packet(DEVICE_t *device, IP_t *ip)
            icmp->code);
 
     if (icmp->type  == 8 && icmp->code == 0) {
+
+        if (!EASY_IP__lock_mutex(&device->mutex)) {
+            /* TODO: Add error handling */
+            printf("Failed to lock mutex\n");
+            goto Exit;
+        }
         uint8_t *buffer = (uint8_t *)device->output_packet;
         buffer += ETHER__fill(device, buffer, ether->source, IPV4_PROTOCOL);
-        buffer += IP__fill(device, buffer, ip->source_ip, 1, payload_size);
+        buffer += IP__fill(device, buffer, ip->source_ip, IP__ICMP_PROTOCOL, payload_size);
         buffer += ICMP__fill(device, buffer, 0, 0);
         memcpy(buffer, icmp->payload, payload_size);
         buffer += payload_size;
         UTILS__fill_checksums(device->output_packet);
-        write_packet(device->output_packet, buffer - device->output_packet);
+        EASY_IP__write_packet(device->output_packet, buffer - device->output_packet);
+        if (!EASY_IP__unlock_mutex(&device->mutex)) {
+            /* TODO: Add error handling */
+            printf("Failed to unlock mutex\n");
+            goto Exit;
+        }
     }
+Exit:
+    return;
 }
