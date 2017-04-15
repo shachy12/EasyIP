@@ -2,6 +2,7 @@
 #define NET_CONFIG_H
 
 #include <pthread.h>
+#include <semaphore.h>
 
 /* For Big Endian architectures remove this define */
 #define EASY_IP_LITTLE_ENDIAN
@@ -15,5 +16,11 @@
 #define EASY_IP_PERIODIC_TIMER_SPEED (1000)
 
 #define EASY_IP_MUTEX_TYPE pthread_mutex_t
+#define EASY_IP_SIGNAL_TYPE  sem_t
 
+/* The window size both for UDP and TCP */
+#define EASY_IP_CONNECTION_WINDOW_SIZE (2000)
+
+/* Max connections */
+#define EASY_IP_CONNECTION_COUNT (5)
 #endif

@@ -11,7 +11,9 @@ FILES=platforms/$(PLATFORM)/main.c \
 	  net/ipv4/ip.c \
 	  net/ipv4/icmp.c \
 	  net/ipv4/udp.c \
-	  net/utils.c
+	  net/conn.c \
+	  net/utils.c \
+	  libs/RecordsAllocator/RECORDS_ALLOCATOR.c
 
 $(PLATFORM): $(FILES)
 	gcc $(CFLAGS) -o $(PLATFORM) $(FILES)

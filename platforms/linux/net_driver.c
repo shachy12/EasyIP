@@ -126,3 +126,27 @@ bool EASY_IP__destroy_mutex(EASY_IP_MUTEX_TYPE *mutex)
     printf("destroyed mutex\n");
     return 0 == pthread_mutex_destroy(mutex);
 }
+
+bool EASY_IP__create_signal(EASY_IP_SIGNAL_TYPE *signal)
+{
+    printf("Created signal\n");
+    return 0 == sem_init(signal, 0, 0);
+}
+
+bool EASY_IP__wait_signal(EASY_IP_SIGNAL_TYPE *signal)
+{
+    printf("Waiting for signal\n");
+    return 0 == sem_wait(signal);
+}
+
+bool EASY_IP__post_signal(EASY_IP_SIGNAL_TYPE *signal)
+{
+    printf("Sent signal\n");
+    return 0 == sem_post(signal);
+}
+
+bool EASY_IP__destroy_signal(EASY_IP_SIGNAL_TYPE *signal)
+{
+    printf("destroyed signal\n");
+    return 0 == sem_destroy(signal);
+}
