@@ -14,7 +14,8 @@ FILES=platforms/$(PLATFORM)/main.c \
 	  net/ipv4/udp.c \
 	  net/conn.c \
 	  net/utils.c \
-	  libs/LinkedList/LINKED_LIST.c
+	  libs/LinkedList/LINKED_LIST.c \
+	  libs/CyclicBuffer/CYCLIC_BUFFER.c
 
 $(PLATFORM): $(FILES)
 	gcc $(CFLAGS) -o $(PLATFORM) $(FILES)

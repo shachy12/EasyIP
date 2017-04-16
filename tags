@@ -23,11 +23,18 @@ CONN__init	net/conn.c	/^bool CONN__init(void)$/;"	f
 CONN__linked_list_g	net/conn.c	/^LINKED_LIST_t CONN__linked_list_g = {0};$/;"	v
 CONN__mutex_g	net/conn.c	/^EASY_IP_MUTEX_TYPE CONN__mutex_g;$/;"	v
 CONN__push_data_to_window	net/conn.c	/^bool CONN__push_data_to_window(CONNECTION_t *self, uint8_t *buffer, uint16_t length)$/;"	f
-CONN__recvfrom	net/conn.c	/^bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint, uint16_t *out_length)$/;"	f
+CONN__recvfrom	net/conn.c	/^bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint, size_t *out_length)$/;"	f
 CONN__send_t	net/conn.h	/^typedef bool (*CONN__send_t)(uint8_t *data, uint16_t length);$/;"	t
 CONN__sendto	net/conn.c	/^uint16_t CONN__sendto(CONNECTION_t *self, uint8_t *buffer, uint16_t length, IP_ADDRESS_t destination_ip)$/;"	f
 CONN__state_t	net/conn.h	/^} CONN__state_t;$/;"	t	typeref:enum:__anon1
 CONN__type_t	net/conn.h	/^} CONN__type_t;$/;"	t	typeref:enum:__anon3
+CYCLIC_BUFFER_H	libs/CyclicBuffer/CYCLIC_BUFFER.h	2;"	d
+CYCLIC_BUFFER__clear	libs/CyclicBuffer/CYCLIC_BUFFER.c	/^void CYCLIC_BUFFER__clear(CYCLIC_BUFFER_t *self)$/;"	f
+CYCLIC_BUFFER__init	libs/CyclicBuffer/CYCLIC_BUFFER.c	/^void CYCLIC_BUFFER__init(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t buffer_size)$/;"	f
+CYCLIC_BUFFER__pop	libs/CyclicBuffer/CYCLIC_BUFFER.c	/^void CYCLIC_BUFFER__pop(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t length, size_t *out_length)$/;"	f
+CYCLIC_BUFFER__read	libs/CyclicBuffer/CYCLIC_BUFFER.c	/^void CYCLIC_BUFFER__read(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t length, size_t *out_length)$/;"	f
+CYCLIC_BUFFER__write	libs/CyclicBuffer/CYCLIC_BUFFER.c	/^bool CYCLIC_BUFFER__write(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t length)$/;"	f
+CYCLIC_BUFFER_t	libs/CyclicBuffer/CYCLIC_BUFFER.h	/^} CYCLIC_BUFFER_t;$/;"	t	typeref:struct:__anon1
 DEVICE_t	net/device.h	/^} DEVICE_t;$/;"	t	typeref:struct:__anon1
 EASY_IP_ARP_CACHE_SIZE	net_config.h	13;"	d
 EASY_IP_CONNECTION_WINDOW_SIZE	net_config.h	22;"	d
@@ -102,6 +109,8 @@ UDP__handle_packet	net/ipv4/udp.c	/^void UDP__handle_packet(DEVICE_t *device, IP
 allocated_head	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    RECORDS_ALLOCATOR__node_t *allocated_head;$/;"	m	struct:RECORDS_ALLOCATOR_s
 allocator	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    RECORDS_ALLOCATOR_t *allocator;$/;"	m	struct:RECORDS_ALLOCATOR__node_s
 arp_cache	net/device.h	/^    ARP_CACHE__table_t arp_cache;$/;"	m	struct:__anon1
+buffer	libs/CyclicBuffer/CYCLIC_BUFFER.h	/^    uint8_t *buffer;$/;"	m	struct:__anon1
+buffer_size	libs/CyclicBuffer/CYCLIC_BUFFER.h	/^    size_t buffer_size;$/;"	m	struct:__anon1
 destination_ip	net/conn.h	/^    IP_ADDRESS_t destination_ip;$/;"	m	struct:__anon6
 destination_port	net/conn.h	/^    uint16_t destination_port;$/;"	m	struct:__anon6
 device	net/conn.h	/^    DEVICE_t *device;$/;"	m	struct:__anon6
@@ -115,6 +124,7 @@ input_packet	net/device.h	/^    uint8_t input_packet[MTU];$/;"	m	struct:__anon1
 ip	net/conn.h	/^    IP_ADDRESS_t ip;$/;"	m	struct:__anon5
 ip	net/device.h	/^    IP_ADDRESS_t ip;$/;"	m	struct:__anon1
 last_error	net/conn.h	/^    CONN__error_t last_error;$/;"	m	struct:__anon6
+length	libs/CyclicBuffer/CYCLIC_BUFFER.h	/^    size_t length;$/;"	m	struct:__anon1
 mac	net/device.h	/^    MAC_ADDRESS_t mac;$/;"	m	struct:__anon1
 main	platforms/linux/main.c	/^int main(void)$/;"	f
 mutex	net/device.h	/^    EASY_IP_MUTEX_TYPE mutex;$/;"	m	struct:__anon1
@@ -134,11 +144,12 @@ signal	net/conn.h	/^    EASY_IP_SIGNAL_TYPE signal;$/;"	m	struct:__anon6
 source_port	net/conn.h	/^    uint16_t source_port;$/;"	m	struct:__anon6
 src_ip	platforms/linux/main.c	/^IP_ADDRESS_t src_ip = {192, 168, 0, 2};$/;"	v
 src_mac	platforms/linux/main.c	/^MAC_ADDRESS_t src_mac = {0xde, 0xad, 0xbe, 0xef, 5, 6};$/;"	v
+start_index	libs/CyclicBuffer/CYCLIC_BUFFER.h	/^    size_t start_index;$/;"	m	struct:__anon1
 state	net/conn.h	/^    CONN__state_t state;$/;"	m	struct:__anon6
 subnet	platforms/linux/main.c	/^IP_ADDRESS_t subnet = {255, 255, 255, 0};$/;"	v
 subnet_mask	net/device.h	/^    IP_ADDRESS_t subnet_mask;$/;"	m	struct:__anon1
 tapdev_fd	platforms/linux/net_driver.c	/^static int tapdev_fd = -1;$/;"	v	file:
 type	net/conn.h	/^    CONN__type_t type;$/;"	m	struct:__anon6
-used_window	net/conn.h	/^    uint16_t used_window;$/;"	m	struct:__anon6
 wait_for_network_threads_to_finish	platforms/linux/main.c	/^void wait_for_network_threads_to_finish(void)$/;"	f
 window	net/conn.h	/^    uint8_t window[EASY_IP_CONNECTION_WINDOW_SIZE];$/;"	m	struct:__anon6
+window_cyclic_buffer	net/conn.h	/^    CYCLIC_BUFFER_t window_cyclic_buffer;$/;"	m	struct:__anon6

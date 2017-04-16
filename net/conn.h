@@ -2,6 +2,7 @@
 #define NET_CONN_H
 
 #include <libs/LinkedList/LINKED_LIST.h>
+#include <libs/CyclicBuffer/CYCLIC_BUFFER.h>
 #include <net_config.h>
 
 typedef enum {
@@ -44,7 +45,7 @@ typedef struct {
     CONN__send_t send_function;
     CONN__error_t last_error;
     uint8_t window[EASY_IP_CONNECTION_WINDOW_SIZE];
-    uint16_t used_window;
+    CYCLIC_BUFFER_t window_cyclic_buffer;
     EASY_IP_SIGNAL_TYPE signal;
     IP_ADDRESS_t destination_ip;
     uint16_t source_port;
@@ -55,7 +56,7 @@ bool CONN__init(void);
 
 bool CONN__create_socket(DEVICE_t *device, CONNECTION_t *connection, CONN__type_t type);
 bool CONN__bind(CONNECTION_t *self, uint16_t port);
-bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint, uint16_t *out_length);
+bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint, size_t *out_length);
 CONNECTION_t *CONN__get_udp_connection_by_port(uint16_t source_port);
 bool CONN__push_data_to_window(CONNECTION_t *self, uint8_t *buffer, uint16_t length);
 

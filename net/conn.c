@@ -24,6 +24,7 @@ bool CONN__create_socket(DEVICE_t *device, CONNECTION_t *connection, CONN__type_
                   Cleanup);
     connection->type = type;
     connection->device = device;
+    CYCLIC_BUFFER__init(&connection->window_cyclic_buffer, connection->window, sizeof(connection->window));
     printf("Created Socket\n");
 
     goto Exit;
@@ -49,29 +50,28 @@ Exit:
     return EASY_IP__unlock_mutex(&CONN__mutex_g);
 }
 
-bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint, uint16_t *out_length)
+bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint, size_t *out_length)
 {
+    bool rc = false;
+
     IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
     self->state = CONN__WAITING_FOR_NEW_DATA;
-    if (0 == self->used_window) {
+    CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, buffer, length, out_length);
+    if (0 == *out_length) {
         /* We don't have data in the window so we need to wait for more data */
         IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
         IF_FALSE_GOTO(EASY_IP__wait_signal(&self->signal), ErrorHandling);
         IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
+        CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, buffer, length, out_length);
     }
-    uint16_t fill_size = MIN(length, self->used_window);
-    memcpy(buffer, self->window, fill_size);
-    buffer += fill_size;
-    length -= fill_size;
-    self->used_window -= fill_size;
-    memcpy(self->window, self->window + fill_size, self->used_window);
+
     IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
-    *out_length = fill_size;
+    rc = true;
     goto Exit;
 ErrorHandling:
-    return false;
+    rc = false;
 Exit:
-    return true;
+    return rc;
 }
 
 uint16_t CONN__sendto(CONNECTION_t *self, uint8_t *buffer, uint16_t length, IP_ADDRESS_t destination_ip)
@@ -105,10 +105,7 @@ bool CONN__push_data_to_window(CONNECTION_t *self, uint8_t *buffer, uint16_t len
 {
     bool rc = false;
     IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
-    IF_FALSE_GOTO(length < sizeof(self->window) - self->used_window,
-                  UnlockMutex);
-    memcpy(self->window + self->used_window, buffer, length);
-    self->used_window += length;
+    IF_FALSE_GOTO(CYCLIC_BUFFER__write(&self->window_cyclic_buffer, buffer, length), UnlockMutex);
     if (self->state == CONN__WAITING_FOR_NEW_DATA) {
         IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
         IF_FALSE_GOTO(EASY_IP__post_signal(&self->signal), ErrorHandling);

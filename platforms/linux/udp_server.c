@@ -12,7 +12,7 @@ void *UDP_SERVER__thread(void *arg)
     DEVICE_t *device = (DEVICE_t *)arg;
     CONNECTION_t udp_server;
     uint8_t buffer[100] = {0};
-    uint16_t length = 0;
+    size_t length = 0;
 
     IF_FALSE_GOTO(CONN__create_socket(device, &udp_server, CONN__UDP), Exit);
     IF_FALSE_GOTO(CONN__bind(&udp_server, UDP_SERVER__LISTENING_PORT), CloseConnection);
@@ -24,5 +24,6 @@ void *UDP_SERVER__thread(void *arg)
     }
 CloseConnection:
 Exit:
+    printf("Closed thread\n");
     return NULL;
 }
