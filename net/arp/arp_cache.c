@@ -28,6 +28,7 @@ void ARP_CACHE__update(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t
         /* TODO: handle error */
         goto Exit;
     }
+    memcpy(entry->ip, ip, sizeof(entry->ip));
     printf("Updated arp cache\n");
 UpdateEntry:
     memcpy(entry->mac, mac, sizeof(entry->mac));

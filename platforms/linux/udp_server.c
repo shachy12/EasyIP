@@ -13,14 +13,17 @@ void *UDP_SERVER__thread(void *arg)
     CONNECTION_t udp_server;
     uint8_t buffer[100] = {0};
     size_t length = 0;
+    ENDPOINT_t client = {0};
 
     IF_FALSE_GOTO(CONN__create_socket(device, &udp_server, CONN__UDP), Exit);
     IF_FALSE_GOTO(CONN__bind(&udp_server, UDP_SERVER__LISTENING_PORT), CloseConnection);
     while (true) {
-        IF_FALSE_GOTO(CONN__recvfrom(&udp_server, buffer, sizeof(buffer) - 1, NULL, &length),
+        IF_FALSE_GOTO(CONN__recvfrom(&udp_server, buffer, sizeof(buffer) - 1, &client, &length),
                       CloseConnection);
         buffer[length] = 0;
-        printf("Recevied %d bytes from socket!!!! %s\n", length, buffer);
+        printf("%s", buffer);
+        CONN__sendto(&udp_server, buffer, length, &client);
+
     }
 CloseConnection:
 Exit:

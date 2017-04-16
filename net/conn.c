@@ -2,6 +2,7 @@
 #include <string.h>
 #include <net/device.h>
 #include <net/conn.h>
+#include <net/ipv4/udp.h>
 #include <net/utils.h>
 #include <libs/Errors/ERRORS.h>
 
@@ -22,9 +23,12 @@ bool CONN__create_socket(DEVICE_t *device, CONNECTION_t *connection, CONN__type_
     LINKED_LIST__add(&CONN__linked_list_g, connection);
     IF_FALSE_GOTO(EASY_IP__create_signal(&connection->signal),
                   Cleanup);
-    connection->type = type;
     connection->device = device;
-    CYCLIC_BUFFER__init(&connection->window_cyclic_buffer, connection->window, sizeof(connection->window));
+    connection->type = type;
+    connection->state = CONN__IDLE;
+    CYCLIC_BUFFER__init(&connection->window_cyclic_buffer,
+                        connection->window,
+                        sizeof(connection->window));
     printf("Created Socket\n");
 
     goto Exit;
@@ -56,17 +60,22 @@ bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOI
 
     IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
     self->state = CONN__WAITING_FOR_NEW_DATA;
-    CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, buffer, length, out_length);
-    if (0 == *out_length) {
-        /* We don't have data in the window so we need to wait for more data */
-        IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
-        IF_FALSE_GOTO(EASY_IP__wait_signal(&self->signal), ErrorHandling);
-        IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
-        CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, buffer, length, out_length);
-    }
+    IF_FALSE_GOTO(CYCLIC_BUFFER__is_empty(&self->window_cyclic_buffer), ReadFromBuffer);
+    /* We don't have data in the window so we need to wait for more data */
+    IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
+    IF_FALSE_GOTO(EASY_IP__wait_signal(&self->signal), ErrorHandling);
+    IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
 
+ReadFromBuffer:
+    if (0 == self->current_payload_header.size) {
+        CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, &self->current_payload_header, sizeof(self->current_payload_header), out_length);
+    }
+    CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, buffer, MIN(length, self->current_payload_header.size), out_length);
+    self->current_payload_header.size -= MIN(length, self->current_payload_header.size);
     IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
     rc = true;
+    ON_NULL_GOTO(endpoint, Exit);
+    memcpy(endpoint, &self->current_payload_header.endpoint, sizeof(*endpoint));
     goto Exit;
 ErrorHandling:
     rc = false;
@@ -74,9 +83,9 @@ Exit:
     return rc;
 }
 
-uint16_t CONN__sendto(CONNECTION_t *self, uint8_t *buffer, uint16_t length, IP_ADDRESS_t destination_ip)
+void CONN__sendto(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint)
 {
-
+    UDP__send_packet(self, endpoint->ip, endpoint->port, buffer, length);
 }
 
 CONNECTION_t *CONN__get_udp_connection_by_port(uint16_t source_port)
@@ -101,10 +110,26 @@ Exit:
     return connection;
 }
 
-bool CONN__push_data_to_window(CONNECTION_t *self, uint8_t *buffer, uint16_t length)
+bool CONN__push_data_to_window(CONNECTION_t *self,
+                               IP_ADDRESS_t source_ip,
+                               uint16_t source_port,
+                               uint8_t *buffer,
+                               uint16_t length)
 {
     bool rc = false;
+    CONNECTION__payload_header_t payload_header = {0};
+    memcpy(payload_header.endpoint.ip, source_ip, sizeof(payload_header.endpoint.ip));
+    payload_header.endpoint.port = source_port;
+    payload_header.size = length;
+
     IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
+    IF_FALSE_GOTO(CYCLIC_BUFFER__validate_enough_space(&self->window_cyclic_buffer,
+                                                       length + sizeof(payload_header)),
+                  UnlockMutex);
+    IF_FALSE_GOTO(CYCLIC_BUFFER__write(&self->window_cyclic_buffer,
+                                       (uint8_t *)&payload_header,
+                                       sizeof(payload_header)),
+                  UnlockMutex);
     IF_FALSE_GOTO(CYCLIC_BUFFER__write(&self->window_cyclic_buffer, buffer, length), UnlockMutex);
     if (self->state == CONN__WAITING_FOR_NEW_DATA) {
         IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);

@@ -4,21 +4,22 @@
 #include <stdint.h>
 #include "CYCLIC_BUFFER.h"
 
-void CYCLIC_BUFFER__init(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t buffer_size)
+void CYCLIC_BUFFER__init(CYCLIC_BUFFER_t *self, void *buffer, size_t buffer_size)
 {
-    self->buffer = buffer;
+    self->buffer = (uint8_t *)buffer;
     self->buffer_size = buffer_size;
     self->start_index = 0;
     self->length = 0;
 }
 
-bool CYCLIC_BUFFER__write(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t length)
+bool CYCLIC_BUFFER__write(CYCLIC_BUFFER_t *self, void *buffer_p, size_t length)
 {
     bool rc = false;
     size_t bytes_written = 0;
     size_t current_byte_index = 0;
+    uint8_t *buffer = (uint8_t *)buffer_p;
 
-    if (self->buffer_size - self->length < length) {
+    if (!CYCLIC_BUFFER__validate_enough_space(self, length)) {
         rc = false;
         goto Exit;
     }
@@ -35,11 +36,12 @@ Exit:
     return rc;
 }
 
-void CYCLIC_BUFFER__read(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t length, size_t *out_length)
+void CYCLIC_BUFFER__read(CYCLIC_BUFFER_t *self, void *buffer_p, size_t length, size_t *out_length)
 {
     bool rc = false;
     size_t bytes_read = 0;
     size_t current_byte_index = 0;
+    uint8_t *buffer = (uint8_t *)buffer_p;
 
     if (self->length < length) {
         length = self->length;
@@ -54,11 +56,21 @@ void CYCLIC_BUFFER__read(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t length, 
     *out_length = bytes_read;
 }
 
-void CYCLIC_BUFFER__pop(CYCLIC_BUFFER_t *self, uint8_t *buffer, size_t length, size_t *out_length)
+void CYCLIC_BUFFER__pop(CYCLIC_BUFFER_t *self, void *buffer, size_t length, size_t *out_length)
 {
     CYCLIC_BUFFER__read(self, buffer, length, out_length);
     self->start_index += *out_length;
     self->length -= *out_length;
+}
+
+bool CYCLIC_BUFFER__validate_enough_space(CYCLIC_BUFFER_t *self, size_t length)
+{
+    return self->buffer_size - self->length >= length;
+}
+
+bool CYCLIC_BUFFER__is_empty(CYCLIC_BUFFER_t *self)
+{
+    return self->length == 0;
 }
 
 void CYCLIC_BUFFER__clear(CYCLIC_BUFFER_t *self)
