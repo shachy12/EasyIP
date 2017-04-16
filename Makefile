@@ -4,6 +4,7 @@ CC=gcc
 CFLAGS=-Werror -pedantic -O2 -I. -Iplatforms/$(PLATFORM) -pthread -lpthread
 FILES=platforms/$(PLATFORM)/main.c \
 	  platforms/$(PLATFORM)/net_driver.c \
+	  platforms/$(PLATFORM)/udp_server.c \
 	  net/device.c \
 	  net/ether.c \
 	  net/arp/arp.c \
@@ -13,7 +14,7 @@ FILES=platforms/$(PLATFORM)/main.c \
 	  net/ipv4/udp.c \
 	  net/conn.c \
 	  net/utils.c \
-	  libs/RecordsAllocator/RECORDS_ALLOCATOR.c
+	  libs/LinkedList/LINKED_LIST.c
 
 $(PLATFORM): $(FILES)
 	gcc $(CFLAGS) -o $(PLATFORM) $(FILES)

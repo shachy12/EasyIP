@@ -3,7 +3,10 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <platforms/linux/net_driver.h>
+#include <platforms/linux/udp_server.h>
 #include <platforms/linux/threads.h>
+#include <libs/Errors/ERRORS.h>
+#include <net/conn.h>
 #include <net/device.h>
 #include <net_config.h>
 
@@ -22,6 +25,10 @@ void wait_for_network_threads_to_finish(void);
 
 int main(void)
 {
+    if (!CONN__init()) {
+        printf("Failed to initailize connections\n");
+        goto Exit;
+    }
     if (!NET_DRV__init(&device, src_mac, src_ip, subnet, gateway)) {
         printf("Failed to initialize net driver\n");
         goto Exit;

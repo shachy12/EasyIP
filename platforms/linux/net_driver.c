@@ -105,48 +105,40 @@ void EASY_IP__write_packet(uint8_t *packet, uint16_t length)
 
 bool EASY_IP__create_mutex(EASY_IP_MUTEX_TYPE *mutex)
 {
-    printf("Created mutex\n");
     return 0 == pthread_mutex_init(mutex, NULL);
 }
 
 bool EASY_IP__lock_mutex(EASY_IP_MUTEX_TYPE *mutex)
 {
-    printf("Locked mutex\n");
     return 0 ==  pthread_mutex_lock(mutex);
 }
 
 bool EASY_IP__unlock_mutex(EASY_IP_MUTEX_TYPE *mutex)
 {
-    printf("Unlocked mutex\n");
     return 0 ==  pthread_mutex_unlock(mutex);
 }
 
 bool EASY_IP__destroy_mutex(EASY_IP_MUTEX_TYPE *mutex)
 {
-    printf("destroyed mutex\n");
     return 0 == pthread_mutex_destroy(mutex);
 }
 
 bool EASY_IP__create_signal(EASY_IP_SIGNAL_TYPE *signal)
 {
-    printf("Created signal\n");
     return 0 == sem_init(signal, 0, 0);
 }
 
 bool EASY_IP__wait_signal(EASY_IP_SIGNAL_TYPE *signal)
 {
-    printf("Waiting for signal\n");
     return 0 == sem_wait(signal);
 }
 
 bool EASY_IP__post_signal(EASY_IP_SIGNAL_TYPE *signal)
 {
-    printf("Sent signal\n");
     return 0 == sem_post(signal);
 }
 
 bool EASY_IP__destroy_signal(EASY_IP_SIGNAL_TYPE *signal)
 {
-    printf("destroyed signal\n");
     return 0 == sem_destroy(signal);
 }

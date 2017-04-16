@@ -1,7 +1,7 @@
 #ifndef NET_CONN_H
 #define NET_CONN_H
 
-#include <libs/RecordsAllocator/RECORDS_ALLOCATOR.h>
+#include <libs/LinkedList/LINKED_LIST.h>
 #include <net_config.h>
 
 typedef enum {
@@ -32,15 +32,31 @@ typedef enum {
 typedef bool (*CONN__send_t)(uint8_t *data, uint16_t length);
 
 typedef struct {
-    RECORDS_ALLOCATOR_NODE;
+    IP_ADDRESS_t ip;
+    uint16_t port;
+} ENDPOINT_t;
+
+typedef struct {
+    LINKED_LIST_NODE;
+    DEVICE_t *device;
     CONN__type_t type;
     CONN__state_t state;
-    CONN__action_t action;
     CONN__send_t send_function;
     CONN__error_t last_error;
-    uint16_t source_port;
     uint8_t window[EASY_IP_CONNECTION_WINDOW_SIZE];
+    uint16_t used_window;
     EASY_IP_SIGNAL_TYPE signal;
+    IP_ADDRESS_t destination_ip;
+    uint16_t source_port;
+    uint16_t destination_port;
 } CONNECTION_t;
+
+bool CONN__init(void);
+
+bool CONN__create_socket(DEVICE_t *device, CONNECTION_t *connection, CONN__type_t type);
+bool CONN__bind(CONNECTION_t *self, uint16_t port);
+bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint, uint16_t *out_length);
+CONNECTION_t *CONN__get_udp_connection_by_port(uint16_t source_port);
+bool CONN__push_data_to_window(CONNECTION_t *self, uint8_t *buffer, uint16_t length);
 
 #endif

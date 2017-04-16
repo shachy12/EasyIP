@@ -21,6 +21,4 @@
 /* The window size both for UDP and TCP */
 #define EASY_IP_CONNECTION_WINDOW_SIZE (2000)
 
-/* Max connections */
-#define EASY_IP_CONNECTION_COUNT (5)
 #endif
