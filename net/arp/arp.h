@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <net/device.h>
 #include <net/protocols.h>
+#include <net/conn.h>
+
+#define ARP_REQUEST_TARGET_MAC ((uint8_t *)("\x00\x00\x00\x00\x00\x00"))
 
 typedef enum {
     ARP_REQUEST = 1,
@@ -28,4 +31,5 @@ void ARP__handle_request(DEVICE_t *device, ARP_t *arp);
 
 void ARP__handle_packet(DEVICE_t *device, uint8_t *payload);
 
+bool ARP__request_mac(CONNECTION_t *self, IP_ADDRESS_t destination_ip);
 #endif

@@ -96,10 +96,17 @@ Exit:
     return NULL;
 }
 
+#define PRINT_PACKETS
 void EASY_IP__write_packet(uint8_t *packet, uint16_t length)
 {
     int wrote_bytes = write(tapdev_fd, packet, length);
     printf("Wrote packet, %d bytes\n", wrote_bytes);
+#ifdef PRINT_PACKETS
+    for (uint16_t i = 0; i < wrote_bytes; i++) {
+        printf("%02X ", packet[i]);
+    }
+    printf("\n");
+#endif
     assert(wrote_bytes == length);
 }
 

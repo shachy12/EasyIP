@@ -19,19 +19,19 @@ uint16_t UDP__fill(DEVICE_t *device, uint8_t *buffer, uint16_t source_port, uint
     return sizeof(*udp);
 }
 
-bool UDP__send_packet(CONNECTION_t *connection, IP_ADDRESS_t destination_ip, uint16_t destination_port, uint8_t *payload, uint16_t payload_size)
+bool UDP__send_packet(CONNECTION_t *connection,
+                      MAC_ADDRESS_t destination_mac,
+                      IP_ADDRESS_t destination_ip,
+                      uint16_t destination_port,
+                      uint8_t *payload,
+                      uint16_t payload_size)
 {
     bool rc = false;
     DEVICE_t *device = connection->device;
     uint8_t *buffer = (uint8_t *)device->output_packet;
-    ARP_CACHE__entry_t *arp_entry = ARP_CACHE__get(&device->arp_cache, destination_ip);
-    if (NULL == arp_entry) {
-        printf("MAC not found!\n");
-        goto ErrorHandling;
-    }
 
     IF_FALSE_GOTO(EASY_IP__lock_mutex(&connection->device->mutex), ErrorHandling);
-    buffer += ETHER__fill(device, buffer, arp_entry->mac, IPV4_PROTOCOL);
+    buffer += ETHER__fill(device, buffer, destination_mac, IPV4_PROTOCOL);
     buffer += IP__fill(device, buffer, destination_ip, IP__UDP_PROTOCOL, sizeof(UDP_t) + payload_size);
     buffer += UDP__fill(device, buffer, connection->source_port, destination_port, payload_size);
     memcpy(buffer, payload, payload_size);

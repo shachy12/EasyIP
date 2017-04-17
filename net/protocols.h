@@ -6,7 +6,7 @@
 typedef uint8_t IP_ADDRESS_t[4];
 typedef uint8_t MAC_ADDRESS_t[6];
 
-#define BROADCAST_MAC ("\xff\xff\xff\xff\xff\xff")
+#define BROADCAST_MAC ((uint8_t *)("\xff\xff\xff\xff\xff\xff"))
 
 #define MTU (1500)
 #define MIN_PACKET_SIZE (60)

@@ -3,6 +3,7 @@
 #include <net/device.h>
 #include <net/conn.h>
 #include <net/ipv4/udp.h>
+#include <net/arp/arp.h>
 #include <net/utils.h>
 #include <libs/Errors/ERRORS.h>
 
@@ -57,6 +58,8 @@ Exit:
 bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint, size_t *out_length)
 {
     bool rc = false;
+    CONNECTION__payload_header_t payload_header;
+    size_t read_length = 0;
 
     IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
     self->state = CONN__WAITING_FOR_NEW_DATA;
@@ -67,25 +70,56 @@ bool CONN__recvfrom(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOI
     IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
 
 ReadFromBuffer:
-    if (0 == self->current_payload_header.size) {
-        CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, &self->current_payload_header, sizeof(self->current_payload_header), out_length);
-    }
-    CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, buffer, MIN(length, self->current_payload_header.size), out_length);
-    self->current_payload_header.size -= MIN(length, self->current_payload_header.size);
+    self->state = CONN__IDLE;
+    read_length = CYCLIC_BUFFER__read(&self->window_cyclic_buffer, &payload_header, sizeof(payload_header));
+    IF_FALSE_GOTO(read_length == sizeof(payload_header), UnlockMutexAndClearBuffer);
+
+    CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, sizeof(payload_header));
+    *out_length = CYCLIC_BUFFER__read(&self->window_cyclic_buffer, buffer, MIN(length, payload_header.size));
+    CYCLIC_BUFFER__pop(&self->window_cyclic_buffer, *out_length);
     IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
+
     rc = true;
     ON_NULL_GOTO(endpoint, Exit);
-    memcpy(endpoint, &self->current_payload_header.endpoint, sizeof(*endpoint));
+    memcpy(endpoint, &payload_header.endpoint, sizeof(*endpoint));
     goto Exit;
+UnlockMutexAndClearBuffer:
+    /* Something strange happend, we need to clear the buffer */
+    CYCLIC_BUFFER__clear(&self->window_cyclic_buffer);
+    EASY_IP__unlock_mutex(&CONN__mutex_g);
 ErrorHandling:
     rc = false;
 Exit:
     return rc;
 }
 
-void CONN__sendto(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint)
+bool CONN__sendto(CONNECTION_t *self, uint8_t *buffer, uint16_t length, ENDPOINT_t *endpoint)
 {
-    UDP__send_packet(self, endpoint->ip, endpoint->port, buffer, length);
+    bool rc = false;
+    DEVICE_t *device = self->device;
+    MAC_ADDRESS_t destination_mac = {0};
+    IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
+    IF_TRUE_GOTO(ARP_CACHE__get_mac(&device->arp_cache, endpoint->ip, destination_mac),
+                 SendPacket);
+
+    self->state = CONN__WAITING_FOR_MAC;
+    memcpy(self->state_params.mac_request_ip, endpoint->ip, sizeof(self->state_params.mac_request_ip));
+    IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
+    ARP__request_mac(self, endpoint->ip);
+    IF_FALSE_GOTO(EASY_IP__wait_signal(&self->signal), ErrorHandling);
+    IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), ErrorHandling);
+    IF_FALSE_GOTO(ARP_CACHE__get_mac(&device->arp_cache, endpoint->ip, destination_mac),
+                 ErrorHandling);
+
+SendPacket:
+    IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g), ErrorHandling);
+    UDP__send_packet(self, destination_mac, endpoint->ip, endpoint->port, buffer, length);
+    rc = true;
+    goto Exit;
+ErrorHandling:
+    rc = false;
+Exit:
+    return rc;
 }
 
 CONNECTION_t *CONN__get_udp_connection_by_port(uint16_t source_port)
@@ -108,6 +142,33 @@ UnlockMutex:
     }
 Exit:
     return connection;
+}
+
+bool CONN__handle_arp_response(IP_ADDRESS_t ip)
+{
+    bool rc = false;
+    LINKED_LIST__node_t *node = NULL;
+    CONNECTION_t *connection = NULL;
+    IF_FALSE_GOTO(EASY_IP__lock_mutex(&CONN__mutex_g), Exit);
+    printf("Searching for connection\n");
+    LINKED_LIST_FOREACH_NODE(&CONN__linked_list_g, node) {
+        connection = (CONNECTION_t *)node;
+        if ((CONN__WAITING_FOR_MAC == connection->state) &&
+            (0 == memcmp(connection->state_params.mac_request_ip, ip, sizeof(connection->state_params.mac_request_ip)))) {
+            printf("Connection found!\n");
+            EASY_IP__post_signal(&connection->signal);
+        }
+    }
+
+UnlockMutex:
+    IF_FALSE_GOTO(EASY_IP__unlock_mutex(&CONN__mutex_g),
+                  ErrorHandling);
+    rc = true;
+    goto Exit;
+ErrorHandling:
+    rc = false;
+Exit:
+    return rc;
 }
 
 bool CONN__push_data_to_window(CONNECTION_t *self,

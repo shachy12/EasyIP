@@ -1,8 +1,10 @@
+#include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <net/arp/arp_cache.h>
 #include <net/protocols.h>
+#include <libs/Errors/ERRORS.h>
 
 void ARP_CACHE__init(ARP_CACHE__table_t *table)
 {
@@ -48,6 +50,20 @@ ARP_CACHE__entry_t * ARP_CACHE__get(ARP_CACHE__table_t *table, IP_ADDRESS_t ip)
     }
 Exit:
     return entry;
+}
+
+bool ARP_CACHE__get_mac(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t out_mac)
+{
+    bool rc = false;
+
+    ARP_CACHE__entry_t *entry = ARP_CACHE__get(table, ip);
+    ON_NULL_GOTO(entry, Exit);
+
+    memcpy(out_mac, entry->mac, sizeof(entry->mac));
+
+    rc = true;
+Exit:
+    return rc;
 }
 
 ARP_CACHE__entry_t *ARP_CACHE__allocate(ARP_CACHE__table_t *table)
