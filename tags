@@ -211,7 +211,9 @@ THREAD_HANDLER	./platforms/linux/main.c	57;"	d	file:
 THREAD_HANDLER	./platforms/linux/threads.h	5;"	d
 THREAD_HANDLER	./platforms/linux/threads.h	8;"	d
 UDP_SERVER__LISTENING_PORT	./platforms/linux/udp_server.c	8;"	d	file:
+UDP_SERVER__LISTENING_PORT	platforms/linux/udp_server.c	8;"	d	file:
 UDP_SERVER__thread	./platforms/linux/udp_server.c	/^void *UDP_SERVER__thread(void *arg)$/;"	f
+UDP_SERVER__thread	platforms/linux/udp_server.c	/^void *UDP_SERVER__thread(void *arg)$/;"	f
 UDP__fill	./net/ipv4/udp.c	/^uint16_t UDP__fill(DEVICE_t *device, uint8_t *buffer, uint16_t source_port, uint16_t destination_port, uint16_t payload_length)$/;"	f
 UDP__handle_packet	./net/ipv4/udp.c	/^void UDP__handle_packet(DEVICE_t *device, IP_t *ip)$/;"	f
 UDP__send_packet	./net/ipv4/udp.c	/^bool UDP__send_packet(CONNECTION_t *connection,$/;"	f

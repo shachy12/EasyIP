@@ -13,11 +13,10 @@ void *UDP_SERVER__thread(void *arg)
     CONNECTION_t udp_server;
     uint8_t buffer[100] = {0};
     size_t length = 0;
-    ENDPOINT_t client = {{192,168,0,1}, 1235};
+    ENDPOINT_t client;
 
     IF_FALSE_GOTO(CONN__create_socket(device, &udp_server, CONN__UDP), Exit);
     IF_FALSE_GOTO(CONN__bind(&udp_server, UDP_SERVER__LISTENING_PORT), CloseConnection);
-    CONN__sendto(&udp_server, (uint8_t *)"Hey There :)\n", sizeof("Hey There :)\n"), &client);
 
     while (true) {
         IF_FALSE_GOTO(CONN__recvfrom(&udp_server, buffer, sizeof(buffer) - 1, &client, &length),
