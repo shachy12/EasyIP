@@ -21,7 +21,10 @@ struct LINKED_LIST_s {
 void LINKED_LIST__init(LINKED_LIST_t *list);
 void LINKED_LIST__add(LINKED_LIST_t *list, void *node_p);
 void LINKED_LIST__remove(void *node_p);
+void *LINKED_LIST__pop(LINKED_LIST_t *list);
+void *LINKED_LIST__get_next(void *node_p);
+void *LINKED_LIST__get_first(LINKED_LIST_t *list);
 
 #define LINKED_LIST_FOREACH_NODE(__list, __node) \
-    for (__node = (__list)->head; node != NULL; __node = __node->next)
+    for (__node = LINKED_LIST__get_first(__list); __node != NULL; __node = LINKED_LIST__get_next(__node))
 #endif

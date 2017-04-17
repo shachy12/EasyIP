@@ -51,22 +51,14 @@ void ARP__handle_request(DEVICE_t *device, ARP_t *arp)
         goto Exit;
     }
 
-    if (!EASY_IP__lock_mutex(&device->mutex)) {
-        /* TODO: Add error handling */
-        printf("Failed to lock mutex\n");
-        goto Exit;
-    }
     printf("Received arp request packet\n");
     ARP_CACHE__update(&device->arp_cache, arp->sender_ip, arp->sender_mac);
 
+    IF_FALSE_GOTO(EASY_IP__lock_mutex(&device->mutex), Exit);
     buffer += ETHER__fill(device, buffer, arp->sender_mac, ARP_PROTOCOL);
     buffer += ARP__fill(device, buffer, ARP_REPLY, arp->sender_mac, arp->sender_ip);
     EASY_IP__write_packet(device->output_packet, (uint32_t)buffer - (uint32_t)device->output_packet);
-    if (!EASY_IP__unlock_mutex(&device->mutex)) {
-        /* TODO: Add error handling */
-        printf("Failed to unlock mutex\n");
-        goto Exit;
-    }
+    IF_FALSE_GOTO(EASY_IP__unlock_mutex(&device->mutex), Exit);
 
 Exit:
     return;
@@ -75,9 +67,7 @@ Exit:
 bool ARP__handle_response(DEVICE_t *device, ARP_t *arp)
 {
     bool rc = false;
-    IF_FALSE_GOTO(EASY_IP__lock_mutex(&device->mutex), ErrorHandling);
     ARP_CACHE__update(&device->arp_cache, arp->sender_ip, arp->sender_mac);
-    IF_FALSE_GOTO(EASY_IP__unlock_mutex(&device->mutex), ErrorHandling);
     CONN__handle_arp_response(arp->sender_ip);
     rc = true;
     goto Exit;

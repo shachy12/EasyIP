@@ -5,25 +5,24 @@
 #include <stdint.h>
 #include <net/protocols.h>
 #include <net_config.h>
+#include <libs/RecordsAllocator/RECORDS_ALLOCATOR.h>
 
 typedef struct ARP_CACHE__entry_s {
-    struct ARP_CACHE__entry_s *next;
-    struct ARP_CACHE__entry_s *prev;
+    RECORDS_ALLOCATOR_NODE;
     MAC_ADDRESS_t mac;
     IP_ADDRESS_t ip;
     uint32_t time;
 } ARP_CACHE__entry_t;
 
 typedef struct {
-    ARP_CACHE__entry_t *allocated_head;
-    ARP_CACHE__entry_t *oldest_allocated_head;
-    ARP_CACHE__entry_t *free_head;
     ARP_CACHE__entry_t entries[EASY_IP_ARP_CACHE_SIZE];
+    RECORDS_ALLOCATOR_t allocator;
+    EASY_IP_MUTEX_TYPE mutex;
 } ARP_CACHE__table_t;
 
-void ARP_CACHE__init(ARP_CACHE__table_t *table);
+bool ARP_CACHE__init(ARP_CACHE__table_t *table);
 
-void ARP_CACHE__update(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t mac);
+bool ARP_CACHE__update(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t mac);
 
 ARP_CACHE__entry_t * ARP_CACHE__get(ARP_CACHE__table_t *table, IP_ADDRESS_t ip);
 

@@ -15,6 +15,7 @@ FILES=platforms/$(PLATFORM)/main.c \
 	  net/conn.c \
 	  net/utils.c \
 	  libs/LinkedList/LINKED_LIST.c \
+	  libs/RecordsAllocator/RECORDS_ALLOCATOR.c \
 	  libs/CyclicBuffer/CYCLIC_BUFFER.c
 
 $(PLATFORM): $(FILES)

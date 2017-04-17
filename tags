@@ -6,26 +6,40 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 ARP_CACHE__allocate	./net/arp/arp_cache.c	/^ARP_CACHE__entry_t *ARP_CACHE__allocate(ARP_CACHE__table_t *table)$/;"	f
 ARP_CACHE__entry_s	./net/arp/arp_cache.h	/^typedef struct ARP_CACHE__entry_s {$/;"	s
+ARP_CACHE__entry_s	net/arp/arp_cache.h	/^typedef struct ARP_CACHE__entry_s {$/;"	s
 ARP_CACHE__entry_t	./net/arp/arp_cache.h	/^} ARP_CACHE__entry_t;$/;"	t	typeref:struct:ARP_CACHE__entry_s
+ARP_CACHE__entry_t	net/arp/arp_cache.h	/^} ARP_CACHE__entry_t;$/;"	t	typeref:struct:ARP_CACHE__entry_s
 ARP_CACHE__get	./net/arp/arp_cache.c	/^ARP_CACHE__entry_t * ARP_CACHE__get(ARP_CACHE__table_t *table, IP_ADDRESS_t ip)$/;"	f
+ARP_CACHE__get	net/arp/arp_cache.c	/^ARP_CACHE__entry_t * ARP_CACHE__get(ARP_CACHE__table_t *table, IP_ADDRESS_t ip)$/;"	f
 ARP_CACHE__get_mac	./net/arp/arp_cache.c	/^bool ARP_CACHE__get_mac(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t out_mac)$/;"	f
+ARP_CACHE__get_mac	net/arp/arp_cache.c	/^bool ARP_CACHE__get_mac(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t out_mac)$/;"	f
 ARP_CACHE__init	./net/arp/arp_cache.c	/^void ARP_CACHE__init(ARP_CACHE__table_t *table)$/;"	f
+ARP_CACHE__init	net/arp/arp_cache.c	/^bool ARP_CACHE__init(ARP_CACHE__table_t *table)$/;"	f
 ARP_CACHE__table_t	./net/arp/arp_cache.h	/^} ARP_CACHE__table_t;$/;"	t	typeref:struct:__anon11
+ARP_CACHE__table_t	net/arp/arp_cache.h	/^} ARP_CACHE__table_t;$/;"	t	typeref:struct:__anon1
 ARP_CACHE__update	./net/arp/arp_cache.c	/^void ARP_CACHE__update(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t mac)$/;"	f
+ARP_CACHE__update	net/arp/arp_cache.c	/^bool ARP_CACHE__update(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t mac)$/;"	f
 ARP_PROTOCOL	./net/protocols.h	/^    ARP_PROTOCOL = 0x806,$/;"	e	enum:__anon9
 ARP_REPLY	./net/arp/arp.h	/^    ARP_REPLY = 2$/;"	e	enum:__anon12
 ARP_REQUEST	./net/arp/arp.h	/^    ARP_REQUEST = 1,$/;"	e	enum:__anon12
 ARP_REQUEST_TARGET_MAC	./net/arp/arp.h	9;"	d
 ARP__fill	./net/arp/arp.c	/^uint16_t ARP__fill(DEVICE_t *device, uint8_t *buffer, uint8_t opcode, MAC_ADDRESS_t target_mac, IP_ADDRESS_t target_ip)$/;"	f
+ARP__fill	net/arp/arp.c	/^uint16_t ARP__fill(DEVICE_t *device, uint8_t *buffer, uint8_t opcode, MAC_ADDRESS_t target_mac, IP_ADDRESS_t target_ip)$/;"	f
 ARP__handle_packet	./net/arp/arp.c	/^void ARP__handle_packet(DEVICE_t *device, uint8_t *payload)$/;"	f
+ARP__handle_packet	net/arp/arp.c	/^void ARP__handle_packet(DEVICE_t *device, uint8_t *payload)$/;"	f
 ARP__handle_request	./net/arp/arp.c	/^void ARP__handle_request(DEVICE_t *device, ARP_t *arp)$/;"	f
+ARP__handle_request	net/arp/arp.c	/^void ARP__handle_request(DEVICE_t *device, ARP_t *arp)$/;"	f
 ARP__handle_response	./net/arp/arp.c	/^bool ARP__handle_response(DEVICE_t *device, ARP_t *arp)$/;"	f
+ARP__handle_response	net/arp/arp.c	/^bool ARP__handle_response(DEVICE_t *device, ARP_t *arp)$/;"	f
 ARP__opcode_t	./net/arp/arp.h	/^} ARP__opcode_t;$/;"	t	typeref:enum:__anon12
 ARP__request_mac	./net/arp/arp.c	/^bool ARP__request_mac(CONNECTION_t *self, IP_ADDRESS_t destination_ip)$/;"	f
+ARP__request_mac	net/arp/arp.c	/^bool ARP__request_mac(CONNECTION_t *self, IP_ADDRESS_t destination_ip)$/;"	f
 ARP_t	./net/arp/arp.h	/^} ARP_t;$/;"	t	typeref:struct:__anon13
 BROADCAST_MAC	./net/protocols.h	9;"	d
 CC	./Makefile	/^CC=gcc$/;"	m
+CC	Makefile	/^CC=gcc$/;"	m
 CFLAGS	./Makefile	/^CFLAGS=-Werror -pedantic -O2 -I. -Iplatforms\/$(PLATFORM) -pthread -lpthread$/;"	m
+CFLAGS	Makefile	/^CFLAGS=-Werror -pedantic -O2 -I. -Iplatforms\/$(PLATFORM) -pthread -lpthread$/;"	m
 CONNECTION__payload_header_t	./net/conn.h	/^} CONNECTION__payload_header_t;$/;"	t	typeref:struct:__anon6
 CONNECTION__state_params_t	./net/conn.h	/^} CONNECTION__state_params_t;$/;"	t	typeref:union:__anon7
 CONNECTION_t	./net/conn.h	/^} CONNECTION_t;$/;"	t	typeref:struct:__anon8
@@ -89,6 +103,7 @@ ERRORS_H	./libs/Errors/ERRORS.h	2;"	d
 ETHER__fill	./net/ether.c	/^uint16_t ETHER__fill(DEVICE_t *device, uint8_t *buffer, MAC_ADDRESS_t destination_mac, uint16_t protocol)$/;"	f
 ETHER_t	./net/protocols.h	/^} ETHER_t;$/;"	t	typeref:struct:__anon10
 FILES	./Makefile	/^FILES=platforms\/$(PLATFORM)\/main.c \\$/;"	m
+FILES	Makefile	/^FILES=platforms\/$(PLATFORM)\/main.c \\$/;"	m
 ICMP__fill	./net/ipv4/icmp.c	/^uint16_t ICMP__fill(DEVICE_t *device, uint8_t *buffer, uint8_t type, uint8_t code)$/;"	f
 ICMP__handle_packet	./net/ipv4/icmp.c	/^void ICMP__handle_packet(DEVICE_t *device, IP_t *ip)$/;"	f
 ICMP_t	./net/ipv4/icmp.h	/^} ICMP_t;$/;"	t	typeref:struct:__anon14
@@ -109,17 +124,31 @@ IP__handle_packet	./net/ipv4/ip.c	/^void IP__handle_packet(DEVICE_t *device, uin
 IP__protocol_t	./net/ipv4/ip.h	/^} IP__protocol_t;$/;"	t	typeref:enum:__anon15
 IP_t	./net/ipv4/ip.h	/^} IP_t;$/;"	t	typeref:struct:__anon16
 LINKED_LIST_FIELD_NAME	./libs/LinkedList/LINKED_LIST.h	18;"	d
+LINKED_LIST_FIELD_NAME	libs/LinkedList/LINKED_LIST.h	18;"	d
 LINKED_LIST_FOREACH_NODE	./libs/LinkedList/LINKED_LIST.h	25;"	d
+LINKED_LIST_FOREACH_NODE	libs/LinkedList/LINKED_LIST.h	28;"	d
 LINKED_LIST_H	./libs/LinkedList/LINKED_LIST.h	2;"	d
+LINKED_LIST_H	libs/LinkedList/LINKED_LIST.h	2;"	d
 LINKED_LIST_NODE	./libs/LinkedList/LINKED_LIST.h	19;"	d
 LINKED_LIST_NODE	./net/conn.h	/^    LINKED_LIST_NODE;$/;"	m	struct:__anon8
+LINKED_LIST_NODE	libs/LinkedList/LINKED_LIST.h	19;"	d
 LINKED_LIST__add	./libs/LinkedList/LINKED_LIST.c	/^void LINKED_LIST__add(LINKED_LIST_t *list, void *node_p)$/;"	f
+LINKED_LIST__add	libs/LinkedList/LINKED_LIST.c	/^void LINKED_LIST__add(LINKED_LIST_t *list, void *node_p)$/;"	f
+LINKED_LIST__get_first	libs/LinkedList/LINKED_LIST.c	/^void *LINKED_LIST__get_first(LINKED_LIST_t *list)$/;"	f
+LINKED_LIST__get_next	libs/LinkedList/LINKED_LIST.c	/^void *LINKED_LIST__get_next(void *node_p)$/;"	f
 LINKED_LIST__init	./libs/LinkedList/LINKED_LIST.c	/^void LINKED_LIST__init(LINKED_LIST_t *list)$/;"	f
+LINKED_LIST__init	libs/LinkedList/LINKED_LIST.c	/^void LINKED_LIST__init(LINKED_LIST_t *list)$/;"	f
 LINKED_LIST__node_s	./libs/LinkedList/LINKED_LIST.h	/^typedef struct LINKED_LIST__node_s {$/;"	s
+LINKED_LIST__node_s	libs/LinkedList/LINKED_LIST.h	/^typedef struct LINKED_LIST__node_s {$/;"	s
 LINKED_LIST__node_t	./libs/LinkedList/LINKED_LIST.h	/^} LINKED_LIST__node_t;$/;"	t	typeref:struct:LINKED_LIST__node_s
+LINKED_LIST__node_t	libs/LinkedList/LINKED_LIST.h	/^} LINKED_LIST__node_t;$/;"	t	typeref:struct:LINKED_LIST__node_s
+LINKED_LIST__pop	libs/LinkedList/LINKED_LIST.c	/^void *LINKED_LIST__pop(LINKED_LIST_t *list)$/;"	f
 LINKED_LIST__remove	./libs/LinkedList/LINKED_LIST.c	/^void LINKED_LIST__remove(void *node_p)$/;"	f
+LINKED_LIST__remove	libs/LinkedList/LINKED_LIST.c	/^void LINKED_LIST__remove(void *node_p)$/;"	f
 LINKED_LIST_s	./libs/LinkedList/LINKED_LIST.h	/^struct LINKED_LIST_s {$/;"	s
+LINKED_LIST_s	libs/LinkedList/LINKED_LIST.h	/^struct LINKED_LIST_s {$/;"	s
 LINKED_LIST_t	./libs/LinkedList/LINKED_LIST.h	/^typedef struct LINKED_LIST_s LINKED_LIST_t;$/;"	t	typeref:struct:LINKED_LIST_s
+LINKED_LIST_t	libs/LinkedList/LINKED_LIST.h	/^typedef struct LINKED_LIST_s LINKED_LIST_t;$/;"	t	typeref:struct:LINKED_LIST_s
 LINUX_NET_DRIVER	./platforms/linux/net_driver.h	2;"	d
 LINUX_THREADS_H	./platforms/linux/threads.h	2;"	d
 LINUX_UDP_SERVER_H	./platforms/linux/udp_server.h	2;"	d
@@ -129,6 +158,7 @@ MIN	./net/utils.h	14;"	d
 MIN_PACKET_SIZE	./net/protocols.h	12;"	d
 MTU	./net/protocols.h	11;"	d
 NET_ARP_CACHE_H	./net/arp/arp_cache.h	2;"	d
+NET_ARP_CACHE_H	net/arp/arp_cache.h	2;"	d
 NET_ARP_H	./net/arp/arp.h	2;"	d
 NET_CONFIG_H	./net_config.h	2;"	d
 NET_CONN_H	./net/conn.h	2;"	d
@@ -144,21 +174,34 @@ NET_UDP_H	./net/ipv4/udp.h	2;"	d
 NET_UTILS_H	./net/utils.h	2;"	d
 ON_NULL_GOTO	./libs/Errors/ERRORS.h	13;"	d
 PLATFORM	./Makefile	/^PLATFORM=linux$/;"	m
+PLATFORM	Makefile	/^PLATFORM=linux$/;"	m
 PRINT_PACKETS	./platforms/linux/net_driver.c	99;"	d	file:
 PROTOCOLS_t	./net/protocols.h	/^} PROTOCOLS_t;$/;"	t	typeref:enum:__anon9
 PROTOCOL_HANDLER	./net/device.c	36;"	d	file:
 PROTOCOL_HANDLER	./net/device.c	41;"	d	file:
 RECORDS_ALLOCATOR_FIELD_NAME	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	19;"	d
+RECORDS_ALLOCATOR_FIELD_NAME	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	19;"	d
+RECORDS_ALLOCATOR_FOREACH_NODE	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	29;"	d
 RECORDS_ALLOCATOR_H	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	2;"	d
+RECORDS_ALLOCATOR_H	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	2;"	d
 RECORDS_ALLOCATOR_INIT	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	22;"	d
+RECORDS_ALLOCATOR_INIT	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	26;"	d
 RECORDS_ALLOCATOR_NODE	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	20;"	d
+RECORDS_ALLOCATOR_NODE	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	20;"	d
+RECORDS_ALLOCATOR_NODE	net/arp/arp_cache.h	/^    RECORDS_ALLOCATOR_NODE;$/;"	m	struct:ARP_CACHE__entry_s
 RECORDS_ALLOCATOR__allocate	./libs/RecordsAllocator/RECORDS_ALLOCATOR.c	/^RECORDS_ALLOCATOR__node_t *RECORDS_ALLOCATOR__allocate(RECORDS_ALLOCATOR_t *allocator)$/;"	f
+RECORDS_ALLOCATOR__allocate	libs/RecordsAllocator/RECORDS_ALLOCATOR.c	/^void *RECORDS_ALLOCATOR__allocate(RECORDS_ALLOCATOR_t *allocator)$/;"	f
 RECORDS_ALLOCATOR__free	./libs/RecordsAllocator/RECORDS_ALLOCATOR.c	/^void RECORDS_ALLOCATOR__free(void *node_p)$/;"	f
+RECORDS_ALLOCATOR__free	libs/RecordsAllocator/RECORDS_ALLOCATOR.c	/^void RECORDS_ALLOCATOR__free(void *node_p)$/;"	f
 RECORDS_ALLOCATOR__init	./libs/RecordsAllocator/RECORDS_ALLOCATOR.c	/^void RECORDS_ALLOCATOR__init(RECORDS_ALLOCATOR_t *allocator, void *array, size_t record_size, size_t count)$/;"	f
+RECORDS_ALLOCATOR__init	libs/RecordsAllocator/RECORDS_ALLOCATOR.c	/^void RECORDS_ALLOCATOR__init(RECORDS_ALLOCATOR_t *allocator, void *array, size_t record_size, size_t count)$/;"	f
 RECORDS_ALLOCATOR__node_s	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^typedef struct RECORDS_ALLOCATOR__node_s {$/;"	s
 RECORDS_ALLOCATOR__node_t	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^} RECORDS_ALLOCATOR__node_t;$/;"	t	typeref:struct:RECORDS_ALLOCATOR__node_s
+RECORDS_ALLOCATOR__node_t	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^} RECORDS_ALLOCATOR__node_t;$/;"	t	typeref:struct:__anon1
 RECORDS_ALLOCATOR_s	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^struct RECORDS_ALLOCATOR_s {$/;"	s
+RECORDS_ALLOCATOR_s	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^struct RECORDS_ALLOCATOR_s {$/;"	s
 RECORDS_ALLOCATOR_t	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^typedef struct RECORDS_ALLOCATOR_s RECORDS_ALLOCATOR_t;$/;"	t	typeref:struct:RECORDS_ALLOCATOR_s
+RECORDS_ALLOCATOR_t	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^typedef struct RECORDS_ALLOCATOR_s RECORDS_ALLOCATOR_t;$/;"	t	typeref:struct:RECORDS_ALLOCATOR_s
 TAP_DEVICE	./platforms/linux/net_driver.c	20;"	d	file:
 THREAD_COUNT	./platforms/linux/threads.h	/^    THREAD_COUNT$/;"	e	enum:__anon20
 THREAD_HANDLER	./platforms/linux/main.c	46;"	d	file:
@@ -176,7 +219,10 @@ UDP_t	./net/ipv4/udp.h	/^} UDP_t;$/;"	t	typeref:struct:__anon17
 UTILS__fill_checksums	./net/utils.c	/^void UTILS__fill_checksums(uint8_t *buffer)$/;"	f
 allocated_head	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    RECORDS_ALLOCATOR__node_t *allocated_head;$/;"	m	struct:RECORDS_ALLOCATOR_s
 allocated_head	./net/arp/arp_cache.h	/^    ARP_CACHE__entry_t *allocated_head;$/;"	m	struct:__anon11
+allocated_head	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    LINKED_LIST_t allocated_head;$/;"	m	struct:RECORDS_ALLOCATOR_s
 allocator	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    RECORDS_ALLOCATOR_t *allocator;$/;"	m	struct:RECORDS_ALLOCATOR__node_s
+allocator	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    RECORDS_ALLOCATOR_t *allocator;$/;"	m	struct:__anon1
+allocator	net/arp/arp_cache.h	/^    RECORDS_ALLOCATOR_t allocator;$/;"	m	struct:__anon1
 arp_cache	./net/device.h	/^    ARP_CACHE__table_t arp_cache;$/;"	m	struct:__anon18
 buffer	./libs/CyclicBuffer/CYCLIC_BUFFER.h	/^    uint8_t *buffer;$/;"	m	struct:__anon19
 buffer_size	./libs/CyclicBuffer/CYCLIC_BUFFER.h	/^    size_t buffer_size;$/;"	m	struct:__anon19
@@ -192,12 +238,15 @@ device	./platforms/linux/main.c	/^DEVICE_t device = {0};$/;"	v
 dscp_ecn	./net/ipv4/ip.h	/^    uint8_t dscp_ecn;$/;"	m	struct:__anon16
 endpoint	./net/conn.h	/^    ENDPOINT_t endpoint;$/;"	m	struct:__anon6
 entries	./net/arp/arp_cache.h	/^    ARP_CACHE__entry_t entries[EASY_IP_ARP_CACHE_SIZE];$/;"	m	struct:__anon11
+entries	net/arp/arp_cache.h	/^    ARP_CACHE__entry_t entries[EASY_IP_ARP_CACHE_SIZE];$/;"	m	struct:__anon1
 flags_fragment_offset	./net/ipv4/ip.h	/^    uint16_t flags_fragment_offset;$/;"	m	struct:__anon16
 free_head	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    RECORDS_ALLOCATOR__node_t *free_head;$/;"	m	struct:RECORDS_ALLOCATOR_s
 free_head	./net/arp/arp_cache.h	/^    ARP_CACHE__entry_t *free_head;$/;"	m	struct:__anon11
+free_head	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    LINKED_LIST_t free_head;$/;"	m	struct:RECORDS_ALLOCATOR_s
 gateway	./net/device.h	/^    IP_ADDRESS_t gateway;$/;"	m	struct:__anon18
 gateway	./platforms/linux/main.c	/^IP_ADDRESS_t gateway = {192, 168, 0, 1};$/;"	v
 head	./libs/LinkedList/LINKED_LIST.h	/^    LINKED_LIST__node_t *head;$/;"	m	struct:LINKED_LIST_s
+head	libs/LinkedList/LINKED_LIST.h	/^    LINKED_LIST__node_t *head;$/;"	m	struct:LINKED_LIST_s
 header_checksum	./net/ipv4/ip.h	/^    uint16_t header_checksum;$/;"	m	struct:__anon16
 htons	./net/utils.h	12;"	d
 hw_size	./net/arp/arp.h	/^    uint8_t hw_size;$/;"	m	struct:__anon13
@@ -207,23 +256,29 @@ input_packet	./net/device.h	/^    uint8_t input_packet[MTU];$/;"	m	struct:__anon
 ip	./net/arp/arp_cache.h	/^    IP_ADDRESS_t ip;$/;"	m	struct:ARP_CACHE__entry_s
 ip	./net/conn.h	/^    IP_ADDRESS_t ip;$/;"	m	struct:__anon5
 ip	./net/device.h	/^    IP_ADDRESS_t ip;$/;"	m	struct:__anon18
+ip	net/arp/arp_cache.h	/^    IP_ADDRESS_t ip;$/;"	m	struct:ARP_CACHE__entry_s
 length	./libs/CyclicBuffer/CYCLIC_BUFFER.h	/^    size_t length;$/;"	m	struct:__anon19
 length	./net/ipv4/udp.h	/^    uint16_t length;$/;"	m	struct:__anon17
 mac	./net/arp/arp_cache.h	/^    MAC_ADDRESS_t mac;$/;"	m	struct:ARP_CACHE__entry_s
 mac	./net/device.h	/^    MAC_ADDRESS_t mac;$/;"	m	struct:__anon18
+mac	net/arp/arp_cache.h	/^    MAC_ADDRESS_t mac;$/;"	m	struct:ARP_CACHE__entry_s
 mac_request_ip	./net/conn.h	/^    IP_ADDRESS_t mac_request_ip;$/;"	m	union:__anon7
 main	./platforms/linux/main.c	/^int main(void)$/;"	f
 mutex	./net/device.h	/^    EASY_IP_MUTEX_TYPE mutex;$/;"	m	struct:__anon18
+mutex	net/arp/arp_cache.h	/^    EASY_IP_MUTEX_TYPE mutex;$/;"	m	struct:__anon1
 net_threads	./platforms/linux/main.c	/^pthread_t net_threads[THREAD_COUNT] = {0};$/;"	v
 next	./libs/LinkedList/LINKED_LIST.h	/^    struct LINKED_LIST__node_s *next;$/;"	m	struct:LINKED_LIST__node_s	typeref:struct:LINKED_LIST__node_s::LINKED_LIST__node_s
 next	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    struct RECORDS_ALLOCATOR__node_s *next;$/;"	m	struct:RECORDS_ALLOCATOR__node_s	typeref:struct:RECORDS_ALLOCATOR__node_s::RECORDS_ALLOCATOR__node_s
 next	./net/arp/arp_cache.h	/^    struct ARP_CACHE__entry_s *next;$/;"	m	struct:ARP_CACHE__entry_s	typeref:struct:ARP_CACHE__entry_s::ARP_CACHE__entry_s
+next	libs/LinkedList/LINKED_LIST.h	/^    struct LINKED_LIST__node_s *next;$/;"	m	struct:LINKED_LIST__node_s	typeref:struct:LINKED_LIST__node_s::LINKED_LIST__node_s
+node	libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    LINKED_LIST__node_t node;$/;"	m	struct:__anon1
 ntohs	./net/utils.h	10;"	d
 ntohs	./net/utils.h	8;"	d
 oldest_allocated_head	./net/arp/arp_cache.h	/^    ARP_CACHE__entry_t *oldest_allocated_head;$/;"	m	struct:__anon11
 opcode	./net/arp/arp.h	/^    uint16_t opcode;$/;"	m	struct:__anon13
 output_packet	./net/device.h	/^    uint8_t output_packet[MTU];$/;"	m	struct:__anon18
 parent	./libs/LinkedList/LINKED_LIST.h	/^    LINKED_LIST_t *parent;$/;"	m	struct:LINKED_LIST__node_s
+parent	libs/LinkedList/LINKED_LIST.h	/^    LINKED_LIST_t *parent;$/;"	m	struct:LINKED_LIST__node_s
 payload	./net/ipv4/icmp.h	/^    uint8_t payload[];$/;"	m	struct:__anon14
 payload	./net/ipv4/ip.h	/^    uint8_t payload[];$/;"	m	struct:__anon16
 payload	./net/ipv4/udp.h	/^    uint8_t payload[];$/;"	m	struct:__anon17
@@ -232,6 +287,7 @@ port	./net/conn.h	/^    uint16_t port;$/;"	m	struct:__anon5
 prev	./libs/LinkedList/LINKED_LIST.h	/^    struct LINKED_LIST__node_s *prev;$/;"	m	struct:LINKED_LIST__node_s	typeref:struct:LINKED_LIST__node_s::LINKED_LIST__node_s
 prev	./libs/RecordsAllocator/RECORDS_ALLOCATOR.h	/^    struct RECORDS_ALLOCATOR__node_s *prev;$/;"	m	struct:RECORDS_ALLOCATOR__node_s	typeref:struct:RECORDS_ALLOCATOR__node_s::RECORDS_ALLOCATOR__node_s
 prev	./net/arp/arp_cache.h	/^    struct ARP_CACHE__entry_s *prev;$/;"	m	struct:ARP_CACHE__entry_s	typeref:struct:ARP_CACHE__entry_s::ARP_CACHE__entry_s
+prev	libs/LinkedList/LINKED_LIST.h	/^    struct LINKED_LIST__node_s *prev;$/;"	m	struct:LINKED_LIST__node_s	typeref:struct:LINKED_LIST__node_s::LINKED_LIST__node_s
 protocol	./net/ipv4/ip.h	/^    uint8_t protocol;$/;"	m	struct:__anon16
 protocol	./net/protocols.h	/^    uint16_t protocol;$/;"	m	struct:__anon10
 protocol_size	./net/arp/arp.h	/^    uint8_t protocol_size;$/;"	m	struct:__anon13
@@ -257,6 +313,7 @@ target_ip	./net/arp/arp.h	/^    IP_ADDRESS_t target_ip;$/;"	m	struct:__anon13
 target_mac	./net/arp/arp.h	/^    MAC_ADDRESS_t target_mac;$/;"	m	struct:__anon13
 thread_id_t	./platforms/linux/threads.h	/^} thread_id_t;$/;"	t	typeref:enum:__anon20
 time	./net/arp/arp_cache.h	/^    uint32_t time;$/;"	m	struct:ARP_CACHE__entry_s
+time	net/arp/arp_cache.h	/^    uint32_t time;$/;"	m	struct:ARP_CACHE__entry_s
 total_length	./net/ipv4/ip.h	/^    uint16_t total_length;$/;"	m	struct:__anon16
 ttl	./net/ipv4/ip.h	/^    uint8_t ttl;$/;"	m	struct:__anon16
 type	./net/conn.h	/^    CONN__type_t type;$/;"	m	struct:__anon8
