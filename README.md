@@ -15,3 +15,4 @@ This project is still in progress.
 * ARP Cache needs to reuse old entries if all entries are used
 * ICMP Unreachable
 * UDP connect function, you can still send udp to another server using listen and sendto.
+* Better error handling
