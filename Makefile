@@ -14,9 +14,9 @@ FILES=platforms/$(PLATFORM)/main.c \
 	  net/ipv4/udp.c \
 	  net/conn.c \
 	  net/utils.c \
-	  libs/LinkedList/LINKED_LIST.c \
-	  libs/RecordsAllocator/RECORDS_ALLOCATOR.c \
-	  libs/CyclicBuffer/CYCLIC_BUFFER.c
+	  libs/LinkedList/linked_list.c \
+	  libs/RecordsAllocator/records_allocator.c \
+	  libs/CyclicBuffer/cyclic_buffer.c
 
 $(PLATFORM): $(FILES)
 	gcc $(CFLAGS) -o $(PLATFORM) $(FILES)

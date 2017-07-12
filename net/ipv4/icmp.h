@@ -10,6 +10,6 @@ typedef struct {
     uint8_t payload[];
 } ICMP_t;
 
-void ICMP__handle_packet(DEVICE_t *device, IP_t *ip);
+void eip_icmp_handle_packet(DEVICE_t *device, IP_t *ip);
 
 #endif

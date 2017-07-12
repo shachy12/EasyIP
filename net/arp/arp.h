@@ -11,7 +11,7 @@
 typedef enum {
     ARP_REQUEST = 1,
     ARP_REPLY = 2
-} ARP__opcode_t;
+} eip_arp_opcode_t;
 
 typedef struct {
     uint16_t hw_type;
@@ -25,11 +25,11 @@ typedef struct {
     IP_ADDRESS_t target_ip;
 } ARP_t;
 
-uint16_t ARP__fill(DEVICE_t *device, uint8_t *buffer, uint8_t opcode, MAC_ADDRESS_t target_mac, IP_ADDRESS_t target_ip);
+uint16_t eip_arp_fill(DEVICE_t *device, uint8_t *buffer, uint8_t opcode, MAC_ADDRESS_t target_mac, IP_ADDRESS_t target_ip);
 
-void ARP__handle_request(DEVICE_t *device, ARP_t *arp);
+void eip_arp_handle_request(DEVICE_t *device, ARP_t *arp);
 
-void ARP__handle_packet(DEVICE_t *device, uint8_t *payload);
+void eip_arp_handle_packet(DEVICE_t *device, uint8_t *payload);
 
-bool ARP__request_mac(CONNECTION_t *self, IP_ADDRESS_t destination_ip);
+bool eip_arp_request_mac(CONNECTION_t *self, IP_ADDRESS_t destination_ip);
 #endif

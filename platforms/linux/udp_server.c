@@ -3,11 +3,11 @@
 #include <stdbool.h>
 #include <net/device.h>
 #include <net/conn.h>
-#include <libs/Errors/ERRORS.h>
+#include <libs/Errors/errors.h>
 
-#define UDP_SERVER__LISTENING_PORT (1234)
+#define udp_server_LISTENING_PORT (1234)
 
-void *UDP_SERVER__thread(void *arg)
+void *udp_server_thread(void *arg)
 {
     DEVICE_t *device = (DEVICE_t *)arg;
     CONNECTION_t udp_server;
@@ -15,15 +15,15 @@ void *UDP_SERVER__thread(void *arg)
     size_t length = 0;
     ENDPOINT_t client;
 
-    IF_FALSE_GOTO(CONN__create_socket(device, &udp_server, CONN__UDP), Exit);
-    IF_FALSE_GOTO(CONN__bind(&udp_server, UDP_SERVER__LISTENING_PORT), CloseConnection);
+    IF_FALSE_GOTO(eip_conn_create_socket(device, &udp_server, eip_conn_UDP), Exit);
+    IF_FALSE_GOTO(eip_conn_bind(&udp_server, udp_server_LISTENING_PORT), CloseConnection);
 
     while (true) {
-        IF_FALSE_GOTO(CONN__recvfrom(&udp_server, buffer, sizeof(buffer) - 1, &client, &length),
+        IF_FALSE_GOTO(eip_conn_recvfrom(&udp_server, buffer, sizeof(buffer) - 1, &client, &length),
                       CloseConnection);
         buffer[length] = 0;
         printf("%s", buffer);
-        CONN__sendto(&udp_server, buffer, length, &client);
+        eip_conn_sendto(&udp_server, buffer, length, &client);
 
     }
 CloseConnection:

@@ -4,6 +4,6 @@
 #include <stdint.h>
 #include <net/device.h>
 
-uint16_t ETHER__fill(DEVICE_t *device, uint8_t *buffer, MAC_ADDRESS_t destination_mac, uint16_t protocol);
+uint16_t eip_ether_fill(DEVICE_t *device, uint8_t *buffer, MAC_ADDRESS_t destination_mac, uint16_t protocol);
 
 #endif

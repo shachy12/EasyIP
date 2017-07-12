@@ -4,7 +4,7 @@
 #include <net/protocols.h>
 #include <net/utils.h>
 
-uint16_t ETHER__fill(DEVICE_t *device, uint8_t *buffer, MAC_ADDRESS_t destination_mac, uint16_t protocol)
+uint16_t eip_ether_fill(DEVICE_t *device, uint8_t *buffer, MAC_ADDRESS_t destination_mac, uint16_t protocol)
 {
     ETHER_t *ether = (ETHER_t *)buffer;
     memcpy(ether->destination, destination_mac, sizeof(ether->destination));

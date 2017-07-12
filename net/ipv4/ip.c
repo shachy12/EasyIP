@@ -8,20 +8,20 @@
 #include <net/utils.h>
 #include <net_config.h>
 
-uint8_t *IP__get_payload(IP_t *ip)
+uint8_t *eip_ip_get_payload(IP_t *ip)
 {
     uint8_t *buffer = (uint8_t *)ip;
     /* uint16_t header_size = ip->header_length * 4; */
     /* printf("Header Length: %d\n", ip->header_length); */
-    return buffer + IP__GET_HEADER_LENGTH(ip);
+    return buffer + IP_GET_HEADER_LENGTH(ip);
 }
 
-uint16_t IP__fill(DEVICE_t *device, uint8_t *buffer, IP_ADDRESS_t destination_ip, uint8_t protocol, uint16_t payload_length)
+uint16_t eip_ip_fill(DEVICE_t *device, uint8_t *buffer, IP_ADDRESS_t destination_ip, uint8_t protocol, uint16_t payload_length)
 {
     IP_t *ip = (IP_t *)buffer;
-    ip->version_header_length = IP__VERSION_HEADER_LENGTH;
+    ip->version_header_length = IP_VERSION_HEADER_LENGTH;
     ip->dscp_ecn = 0;
-    ip->total_length = htons(payload_length + IP__GET_HEADER_LENGTH(ip));
+    ip->total_length = htons(payload_length + IP_GET_HEADER_LENGTH(ip));
     ip->identification = 0;
     /* TODO: deal with framentations */
     ip->flags_fragment_offset = htons(0x4000);
@@ -31,10 +31,10 @@ uint16_t IP__fill(DEVICE_t *device, uint8_t *buffer, IP_ADDRESS_t destination_ip
     memcpy(ip->source_ip, device->ip, sizeof(ip->source_ip));
     memcpy(ip->destination_ip, destination_ip, sizeof(ip->destination_ip));
 
-    return IP__GET_HEADER_LENGTH(ip);
+    return IP_GET_HEADER_LENGTH(ip);
 }
 
-void IP__handle_packet(DEVICE_t *device, uint8_t *payload)
+void eip_ip_handle_packet(DEVICE_t *device, uint8_t *payload)
 {
     IP_t *ip = (IP_t *)payload;
     if (0 != memcmp(ip->destination_ip, device->ip, sizeof(ip->destination_ip))) {

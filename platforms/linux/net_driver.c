@@ -22,7 +22,7 @@
 static int tapdev_fd = -1;
 void handle_packets(DEVICE_t *device);
 
-bool NET_DRV__init(DEVICE_t *device,
+bool ned_drv_init(DEVICE_t *device,
                    MAC_ADDRESS_t src_mac,
                    IP_ADDRESS_t src_ip,
                    IP_ADDRESS_t subnet,
@@ -47,12 +47,12 @@ bool NET_DRV__init(DEVICE_t *device,
         goto Error;
     }
 
-    return DEVICE__init(device, src_mac, src_ip, subnet, gateway);
+    return eip_dev_init(device, src_mac, src_ip, subnet, gateway);
 Error:
     return false;
 }
 
-void *NET_DRV__thread(void *arg)
+void *ned_drv_thread(void *arg)
 {
     DEVICE_t *device = (DEVICE_t *)arg;
     fd_set fdset;
@@ -75,7 +75,7 @@ void *NET_DRV__thread(void *arg)
         ret = select(tapdev_fd + 1, &fdset, NULL, NULL, &tv);
         if (0 < ret) {
             received_bytes = read(tapdev_fd, device->input_packet, sizeof(device->input_packet));
-            DEVICE__handle_packet(device, received_bytes);
+            eip_dev_handle_packet(device, received_bytes);
         }
 
         if (-1 == gettimeofday(&current_time, NULL)) {
@@ -86,8 +86,8 @@ void *NET_DRV__thread(void *arg)
         /* TODO: Find a better way for timers in the same context */
         if ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000) -
             ((last_time.tv_sec * 1000) + (last_time.tv_usec / 1000)) >= EASY_IP_PERIODIC_TIMER_SPEED ) {
-            /* This function must be called from the same context as the DEVICE__handle_packet function */
-            DEVICE__periodic_timer(device);
+            /* This function must be called from the same context as the eip_dev_handle_packet function */
+            eip_dev_periodic_timer(device);
             memcpy(&last_time, &current_time, sizeof(current_time));
         }
 
@@ -97,7 +97,7 @@ Exit:
 }
 
 #define PRINT_PACKETS
-void EASY_IP__write_packet(uint8_t *packet, uint16_t length)
+void eip_write_packet(uint8_t *packet, uint16_t length)
 {
     int wrote_bytes = write(tapdev_fd, packet, length);
     printf("Wrote packet, %d bytes\n", wrote_bytes);
@@ -110,42 +110,42 @@ void EASY_IP__write_packet(uint8_t *packet, uint16_t length)
     assert(wrote_bytes == length);
 }
 
-bool EASY_IP__create_mutex(EASY_IP_MUTEX_TYPE *mutex)
+bool eip_create_mutex(EASY_IP_MUTEX_TYPE *mutex)
 {
     return 0 == pthread_mutex_init(mutex, NULL);
 }
 
-bool EASY_IP__lock_mutex(EASY_IP_MUTEX_TYPE *mutex)
+bool eip_lock_mutex(EASY_IP_MUTEX_TYPE *mutex)
 {
     return 0 ==  pthread_mutex_lock(mutex);
 }
 
-bool EASY_IP__unlock_mutex(EASY_IP_MUTEX_TYPE *mutex)
+bool eip_unlock_mutex(EASY_IP_MUTEX_TYPE *mutex)
 {
     return 0 ==  pthread_mutex_unlock(mutex);
 }
 
-bool EASY_IP__destroy_mutex(EASY_IP_MUTEX_TYPE *mutex)
+bool eip_destroy_mutex(EASY_IP_MUTEX_TYPE *mutex)
 {
     return 0 == pthread_mutex_destroy(mutex);
 }
 
-bool EASY_IP__create_signal(EASY_IP_SIGNAL_TYPE *signal)
+bool eip_create_signal(EASY_IP_SIGNAL_TYPE *signal)
 {
     return 0 == sem_init(signal, 0, 0);
 }
 
-bool EASY_IP__wait_signal(EASY_IP_SIGNAL_TYPE *signal)
+bool eip_wait_signal(EASY_IP_SIGNAL_TYPE *signal)
 {
     return 0 == sem_wait(signal);
 }
 
-bool EASY_IP__post_signal(EASY_IP_SIGNAL_TYPE *signal)
+bool eip_post_signal(EASY_IP_SIGNAL_TYPE *signal)
 {
     return 0 == sem_post(signal);
 }
 
-bool EASY_IP__destroy_signal(EASY_IP_SIGNAL_TYPE *signal)
+bool eip_destroy_signal(EASY_IP_SIGNAL_TYPE *signal)
 {
     return 0 == sem_destroy(signal);
 }

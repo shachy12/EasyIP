@@ -5,15 +5,15 @@
 #include <net/ipv4/ip.h>
 #include <net/ipv4/icmp.h>
 
-void UTILS__fill_checksums(uint8_t *buffer)
+void eip_utils_fill_checksums(uint8_t *buffer)
 {
     ETHER_t *ether = (ETHER_t *)buffer;
     if (IPV4_PROTOCOL == ntohs(ether->protocol)) {
         IP_t *ip = (IP_t *)ether->payload;
-        uint16_t header_length = IP__GET_HEADER_LENGTH(ip);
+        uint16_t header_length = IP_GET_HEADER_LENGTH(ip);
         ip->header_checksum = htons(checksum16((uint8_t *)ip, header_length));
         printf("Filling IP checksum %x, ", ip->header_checksum);
-        if (ip->protocol == IP__ICMP_PROTOCOL) {
+        if (ip->protocol == eip_ip_ICMP_PROTOCOL) {
             ICMP_t *icmp = (ICMP_t *)ip->payload;
             icmp->checksum = htons(checksum16(ip->payload, ntohs(ip->total_length) - header_length));
             printf("Filling ICMP checksum %x", icmp->checksum);

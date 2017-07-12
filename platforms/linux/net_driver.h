@@ -4,11 +4,11 @@
 #include <stdbool.h>
 #include <net/device.h>
 
-bool NET_DRV__init(DEVICE_t *device,
+bool ned_drv_init(DEVICE_t *device,
                    MAC_ADDRESS_t src_mac,
                    IP_ADDRESS_t src_ip,
                    IP_ADDRESS_t subnet,
                    IP_ADDRESS_t gateway);
-void *NET_DRV__thread(void *arg);
+void *ned_drv_thread(void *arg);
 
 #endif

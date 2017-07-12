@@ -8,7 +8,7 @@
 #include <net/arp/arp_cache.h>
 #include <net/utils.h>
 
-bool DEVICE__init(DEVICE_t *device,
+bool eip_dev_init(DEVICE_t *device,
                   MAC_ADDRESS_t mac,
                   IP_ADDRESS_t ip,
                   IP_ADDRESS_t subnet_mask,
@@ -19,12 +19,12 @@ bool DEVICE__init(DEVICE_t *device,
     memcpy(device->ip, ip, sizeof(device->ip));
     memcpy(device->subnet_mask, subnet_mask, sizeof(device->subnet_mask));
     memcpy(device->gateway, gateway, sizeof(device->gateway));
-    ARP_CACHE__init(&device->arp_cache);
-    return EASY_IP__create_mutex(&device->mutex);
+    eip_arp_cache_init(&device->arp_cache);
+    return eip_create_mutex(&device->mutex);
 }
 
 
-void DEVICE__handle_packet(DEVICE_t *device, uint16_t packet_size)
+void eip_dev_handle_packet(DEVICE_t *device, uint16_t packet_size)
 {
     ETHER_t *ether = (ETHER_t *)device->input_packet;
 
@@ -44,7 +44,7 @@ Exit:
     return;
 }
 
-void DEVICE__periodic_timer(DEVICE_t *device)
+void eip_dev_periodic_timer(DEVICE_t *device)
 {
     /* printf("Timer called\n"); */
 }

@@ -5,29 +5,29 @@
 #include <stdint.h>
 #include <net/protocols.h>
 #include <net_config.h>
-#include <libs/RecordsAllocator/RECORDS_ALLOCATOR.h>
+#include <libs/RecordsAllocator/records_allocator.h>
 
-typedef struct ARP_CACHE__entry_s {
+typedef struct eip_arp_cache_entry_s {
     RECORDS_ALLOCATOR_NODE;
     MAC_ADDRESS_t mac;
     IP_ADDRESS_t ip;
     uint32_t time;
-} ARP_CACHE__entry_t;
+} eip_arp_cache_entry_t;
 
 typedef struct {
-    ARP_CACHE__entry_t entries[EASY_IP_ARP_CACHE_SIZE];
+    eip_arp_cache_entry_t entries[EASY_IP_ARP_CACHE_SIZE];
     RECORDS_ALLOCATOR_t allocator;
     EASY_IP_MUTEX_TYPE mutex;
-} ARP_CACHE__table_t;
+} eip_arp_cache_table_t;
 
-bool ARP_CACHE__init(ARP_CACHE__table_t *table);
+bool eip_arp_cache_init(eip_arp_cache_table_t *table);
 
-bool ARP_CACHE__update(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t mac);
+bool eip_arp_cache_update(eip_arp_cache_table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t mac);
 
-ARP_CACHE__entry_t * ARP_CACHE__get(ARP_CACHE__table_t *table, IP_ADDRESS_t ip);
+eip_arp_cache_entry_t * eip_arp_cache_get(eip_arp_cache_table_t *table, IP_ADDRESS_t ip);
 
-ARP_CACHE__entry_t *ARP_CACHE__allocate(ARP_CACHE__table_t *table);
+eip_arp_cache_entry_t *eip_arp_cache_allocate(eip_arp_cache_table_t *table);
 
-bool ARP_CACHE__get_mac(ARP_CACHE__table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t out_mac);
+bool eip_arp_cache_get_mac(eip_arp_cache_table_t *table, IP_ADDRESS_t ip, MAC_ADDRESS_t out_mac);
 
 #endif

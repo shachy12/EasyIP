@@ -16,6 +16,6 @@
 
 uint16_t checksum16(uint8_t *buffer, uint16_t length);
 
-void UTILS__fill_checksums(uint8_t *buffer);
+void eip_utils_fill_checksums(uint8_t *buffer);
 
 #endif
